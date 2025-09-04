@@ -1,0 +1,149 @@
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+
+:root {
+  --font-display: 'Urbanist', sans-serif;
+  --color-primary: #1A4A8C; /* Deep Blue */
+  --color-secondary: #F0F4F8; /* Light Gray */
+  --color-accent-teal: #00C293; /* Vibrant Teal */
+  --color-accent-yellow: #FFD700; /* Bright Yellow */
+  --color-text-dark: #333333; /* Dark Gray */
+  --color-text-light: #FFFFFF; /* White */
+}
+@layer base {
+  html {
+    font-family: var(--font-display);
+  }
+  body {
+    background-color: var(--color-secondary);
+    color: var(--color-text-dark);
+    overflow-x: hidden;
+  }
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgb(100, 100, 100, 0.4);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@layer utilities {
+  @keyframes text-shine {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+  .animate-text-shine {
+    animation: text-shine 3s ease-in-out infinite alternate;
+  }
+  @keyframes blob1 {
+    0%,
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -60px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+  @keyframes blob2 {
+    0%,
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(-40px, 60px) scale(1.05);
+    }
+    66% {
+      transform: translate(20px, -40px) scale(0.95);
+    }
+  }
+  @keyframes blob3 {
+    0%,
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(20px, 140px) scale(1.15);
+    }
+    66% {
+      transform: translate(-30px, -30px) scale(0.85);
+    }
+  }
+  .animate-bolb1 {
+    animation: bolb1 8s ease-in-out infinite;
+  }
+  .animate-bolb2 {
+    animation: bolb2 10s ease-in-out infinite;
+  }
+  .animate-bolb3 {
+    animation: bolb3 12s ease-in-out infinite;
+  }
+}
+.input-box {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-text-dark);
+  background: var(--color-secondary);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  margin-top: 0.75rem;
+  border: 1px solid var(--color-primary);
+  outline: none;
+}
+.input-box:focus-within {
+  border-color: var(--color-accent-teal);
+}
+.btn-primary {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+  background: var(--color-primary);
+  box-shadow: 0 2px 8px 0 rgba(26,74,140,0.08);
+  padding: 10px;
+  border-radius: 0.5rem;
+  margin: 0.25rem 0;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-primary:hover {
+  background: var(--color-accent-teal);
+  color: var(--color-text-light);
+}
+.btn-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent-yellow) 100%);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-light);
+  padding: 0.5rem 1.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.btn-small:hover {
+  background: var(--color-accent-teal);
+  color: var(--color-text-light);
+  box-shadow: 0 4px 24px 0 var(--color-accent-yellow);
+}
