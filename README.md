@@ -4,7 +4,7 @@ Interview Prep AI is a full-stack web application that helps users prepare for i
 
 ## Features
 - AI-powered, role-specific interview questions and answers
-- Expand answers and dive deeper into concepts
+- Expand answers and dive deep into concepts 
 - Save, organize, and revisit questions
 - Analytics and progress tracking
 - User authentication and profile management
