@@ -38,13 +38,14 @@ router.get("/", async (req, res) => {
     try {
       questions = JSON.parse(cleanedText);
     } catch (err) {
+      console.error("Gemini raw response:", rawText);
+      console.error("Parse error:", err);
       return res.status(500).json({ error: "Failed to parse Gemini response", details: err.message, raw: rawText });
     }
     res.json(questions);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to generate questions" });
+    console.error("Gemini API error:", error);
+    res.status(500).json({ error: "Failed to generate questions", details: error.message });
   }
 });
-
 module.exports = router;
