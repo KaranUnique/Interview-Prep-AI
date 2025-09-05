@@ -11,7 +11,7 @@ const sessionRoutes= require("./routes/sessionRoutes");
 const questionRoutes= require("./routes/questionRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const aptitudeQuestionsRoutes = require("./routes/AptitudeQuestions.js");
-import cors from "cors";
+// Remove ES Module import for cors. Use CommonJS require below.
 const app = express();
 
 app.use(
