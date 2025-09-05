@@ -43,6 +43,11 @@ app.use("/api/ai/generate-explanation", protect , generateConceptExplanation);
 //Serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname,"uploads"),{}));
 
+// Debug route to verify backend is working
+app.get('/api/test', (req, res) => {
+    res.json({ message: 'API is working!' });
+});
+
 //Start Server
 const PORT=process.env.PORT || 5000;
 app.listen(PORT);
