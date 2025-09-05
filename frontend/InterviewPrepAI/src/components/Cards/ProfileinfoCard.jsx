@@ -5,6 +5,7 @@ import { UserContext } from "../../context/userContext";
 const ProfileinfoCard = () => {
   const { user, clearUser } = useContext(UserContext);
   const navigate = useNavigate();
+
   const handleLogout = () => {
     localStorage.clear();
     clearUser();
@@ -14,18 +15,30 @@ const ProfileinfoCard = () => {
   if (!user) return null;
 
   return (
-    user && 
-    <div className="flex items-center">
+    <div className="flex items-center md:pr-5">
+      {/* Avatar */}
       {user.profileImageUrl ? (
-        <img src={user.profileImageUrl} alt="Profile" className="w-11 h-11 bg-gray-300 rounded-full mr-3" />
+        <img
+          src={user.profileImageUrl}
+          alt="Profile"
+          className="w-10 h-10 rounded-full border border-gray-300 shadow-sm"
+        />
       ) : (
-        <div className="w-11 h-11 bg-gray-300 rounded-full mr-3 flex items-center justify-center font-bold text-white">
+        <div className="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-white 
+                        bg-gradient-to-r from-indigo-500 to-purple-500">
           {user.name ? user.name.charAt(0).toUpperCase() : "U"}
         </div>
       )}
-      <div>
-        <div className="text-[15px] text-black font-bold leading-3">{user.name || user.email || ""}</div>
-        <button className="text-amber-600 text-sm font-semibold cursor-pointer hover:underline" onClick={handleLogout}>
+
+      {/* User Info */}
+      <div className="ml-3">
+        <div className="text-sm font-medium text-white">
+          {user.name || user.email || ""}
+        </div>
+        <button
+          onClick={handleLogout}
+          className="text-sm text-white font-medium hover:underline transition-colors"
+        >
           Logout
         </button>
       </div>

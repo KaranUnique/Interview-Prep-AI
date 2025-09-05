@@ -3,9 +3,9 @@
 
 :root {
   --font-display: 'Urbanist', sans-serif;
-  --color-primary: #1A4A8C; /* Deep Blue */
+  --color-primary:rgb(139, 139, 226); 
   --color-secondary: #F0F4F8; /* Light Gray */
-  --color-accent-teal: #00C293; /* Vibrant Teal */
+  --color-accent-teal:#e99a4b; 
   --color-accent-yellow: #FFD700; /* Bright Yellow */
   --color-text-dark: #333333; /* Dark Gray */
   --color-text-light: #FFFFFF; /* White */
@@ -124,10 +124,10 @@
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
 }
-.btn-primary:hover {
+/* .btn-primary:hover {
   background: var(--color-accent-teal);
   color: var(--color-text-light);
-}
+} */
 .btn-small {
   display: flex;
   align-items: center;

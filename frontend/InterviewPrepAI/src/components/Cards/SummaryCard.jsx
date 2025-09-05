@@ -2,62 +2,71 @@ import React from "react";
 import { Trash } from "lucide-react";
 import { getInitials } from "../../utils/helper";
 
-const SummaryCard = ({ colors, role, topicsToFocus, experience, questions, description, lastupdated, onSelect, onDelete }) => {
+const SummaryCard = ({
+  colors,
+  role,
+  topicsToFocus,
+  experience,
+  questions,
+  description,
+  lastupdated,
+  onSelect,
+  onDelete,
+}) => {
   return (
-    <div className="bg-white border border-gray-300/40 rounded-xl p-2 overflow-hidden cursor-pointer hover:shadow-xl shadow-gray-100 relative group"
-    onClick={onSelect}
+    <div
+      className="relative rounded-xl p-4 cursor-pointer 
+                 bg-white/10 backdrop-blur-md border shadow-md
+                 border-white/20 hover:shadow-xl hover:scale-[1.02] 
+                 transition-all duration-300 group"
+      style={{ borderLeft: `6px solid ${colors.bgcolor}` }}
+      onClick={onSelect}
     >
+      {/* Header */}
+      <div className="flex items-start gap-3 mb-3">
         <div
-        className="rounded-lg p-4 cursor-pointer relative "
-        style={{
-            background:colors.bgcolor,
-        }}
+          className="w-12 h-12 rounded-lg flex items-center justify-center font-semibold text-black shadow"
+          style={{ background: colors.bgcolor }}
         >
-            <div className="flex items-start">
-                <div className="flex-shrink-0 w-12 h-12 bg-white rounded-md items-center justify-center mr-4">
-                    <span className="text font-semibold text-black">
-                        {getInitials(role)}
-                    </span>
-                </div>
-                {/* content container  */}
-                <div className="flex-grow">
-                    <div className="flex justify-between items-start">
-                        {/* titile and skills  */}
-                        <div>
-                            <h2 className="text-[17px] font-medium">{role}</h2>
-                            <p className="text-xs text-medium text-gray-900">{topicsToFocus}</p>
+          {getInitials(role)}
+        </div>
+        <div className="flex-1">
+          <h2 className="text-base font-semibold text-white truncate">
+            {role}
+          </h2>
+          <p className="text-xs text-gray-300 truncate">{topicsToFocus}</p>
+        </div>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button
-            className="hidden group-hover:flex items-center gap-2 text-xs text-rose-500 font-medium bg-slate-50 px-3 py-1 rounded text-nowrap border border-rose-100 hover:border-rose-200 cursor-pointer absolute top-0 right-0 "
-            onClick={(e)=>{
-                e.stopPropagation();
-                onDelete();
-            }}
-            >
-                <Trash />
-            </button>
-        </div>
-        <div className="px-2 pb-3">
-            <div className="flex items-center gap-3 mt-4">
-                <div className="text-[10px] font-medium text-black px-3 py-1 border-[0.5px] border-gray-900 rounded-full">
-                    Experience:{experience}{experience == 1 ? "Year" : "Years"}
-                </div>
-                <div className="text-[10px] font-medium text-black px-3 py-1 border-[0.5px] border-gray-900 rounded-full">
-                    {questions}Q&A
-                </div>
-                <div className="text-[10px] font-medium text-black px-3 py-1 border-[0.5px] border-gray-900 rounded-full">
-                    Last Updated:{lastupdated}
-                </div>
-            </div>
-            {/* description  */}
-            <p className="text-[12px] text-gray-500 font-medium line-clamp-2 mt-3">
-                {description}
-            </p>
-        </div>
+        {/* Delete Button */}
+        <button
+          className="hidden group-hover:flex items-center gap-1 text-rose-400 text-xs font-medium 
+                     bg-white/10 px-2 py-0.5 rounded border border-rose-300/30 
+                     hover:bg-rose-500/20 absolute top-2 right-2 transition"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+        >
+          <Trash className="w-3 h-3" />
+          Delete
+        </button>
+      </div>
+
+      {/* Info Tags */}
+      <div className="flex flex-wrap gap-2 mb-3">
+        <span className="text-[11px] font-medium text-gray-200 bg-white/10 px-2 py-0.5 rounded-full">
+          Experience: {experience} {experience === 1 ? "Year" : "Years"}
+        </span>
+        <span className="text-[11px] font-medium text-gray-200 bg-white/10 px-2 py-0.5 rounded-full">
+          {questions} Q&A
+        </span>
+        <span className="text-[11px] font-medium text-gray-200 bg-white/10 px-2 py-0.5 rounded-full">
+          Last Updated: {lastupdated}
+        </span>
+      </div>
+
+      {/* Description */}
+      <p className="text-[13px] text-gray-300 line-clamp-2">{description}</p>
     </div>
   );
 };

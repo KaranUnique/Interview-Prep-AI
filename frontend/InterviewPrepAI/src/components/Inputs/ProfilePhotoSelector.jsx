@@ -41,11 +41,11 @@ const ProfilePhotoSelector = ({ image, setImage, preview, setPreview }) => {
       />
 
       {!image ? (
-        <div className="w-20 h-20 flex items-center justify-center bg-orange-50 rounded-full relative cursor-pointer">
-          <LuUser className="text-4xl text-orange-500" />
+        <div className="w-20 h-20 flex items-center justify-center bg-purple-50 rounded-full relative cursor-pointer">
+          <LuUser className="text-4xl text-purple-500" />
           <button
             type="button"
-            className="w-8 h-8 flex items-center justify-center bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-full absolute -bottom-1 -right-1 cursor-pointer"
+            className="w-8 h-8 flex items-center justify-center bg-gradient-to-r from-purple-600 to-purple-400 text-white rounded-full absolute -bottom-1 -right-1 cursor-pointer"
             onClick={onChooseFile}
           >
             <LuUpload />

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { LuChevronDown, LuPin, LuPinOff, LuSparkles } from "react-icons/lu";
 import AIResponsePreview from '../../pages/InterviewPrep/components/AIResponsePreview';
 
+
 const QuestionCard = ({
   question,
   answer,
@@ -9,7 +10,6 @@ const QuestionCard = ({
   isPinned,
   onTogglePin,
 }) => {
-
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpand = () => {
@@ -28,25 +28,31 @@ const QuestionCard = ({
         </div>
 
         <div className="flex items-center gap-2">
-          <button
-            className="text-gray-600 hover:text-blue-500"
-            onClick={onTogglePin}
-          >
-            {isPinned ? <LuPinOff size={20}/> : <LuPin className="text-purple-900" size={20} />}
-          </button>
+          {onTogglePin && (
+            <button
+              className="text-gray-600 hover:text-blue-500"
+              onClick={onTogglePin}
+            >
+              {isPinned ? <LuPinOff size={20}/> : <LuPin className="text-purple-900" size={20} />}
+            </button>
+          )}
 
-          <button
-            className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-500"
-            onClick={() => {
-              setIsExpanded(true);
-              onLearnMore();
-            }}
-          >
-            <span className="bg-blue-100 rounded-full p-1 flex items-center justify-center">
-              <LuSparkles size={18} className="text-blue-500" />
-            </span>
-            <span>Learn More</span>
-          </button>
+          {onLearnMore && (
+            <button
+              className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-500"
+              onClick={() => {
+                setIsExpanded(true);
+                onLearnMore();
+              }}
+            >
+              <span className="bg-blue-100 rounded-full p-1 flex items-center justify-center">
+                <LuSparkles size={18} className="text-blue-500" />
+              </span>
+              <span>Learn More</span>
+            </button>
+          )}
+
+          {/* Answer indication on the right side (removed aptitude logic) */}
 
           <button className="ml-2" onClick={toggleExpand}>
             <LuChevronDown
@@ -60,13 +66,11 @@ const QuestionCard = ({
       </div>
 
       {/* Answer section */}
-      {isExpanded && (
+      {isExpanded && answer && (
         <div className="mt-3 text-gray-700 leading-relaxed">
           <AIResponsePreview content={answer} />
         </div>
       )}
-
-      {/* Check already written code and check it  */}
     </div>
   );
 };

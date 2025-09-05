@@ -27,8 +27,8 @@ export const UserProvider = ({ children }) => {
             }finally{
                 setLoading(false);
             }
-            fetchUser();
         };
+        fetchUser();
     }, []);
 
     const updateUser =(userData) =>{

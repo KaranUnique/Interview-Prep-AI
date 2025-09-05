@@ -5,7 +5,7 @@ import { validateEmail } from "../../utils/helper";
 import { API_PATHS } from '../../utils/apiPaths';
 import {UserContext} from "../../context/userContext";
 import axiosInstance from "../../utils/axiosinstance";
-const Login = ({ setCurrentPage }) => {
+const Login = ({ setCurrentPage, onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -39,7 +39,11 @@ const Login = ({ setCurrentPage }) => {
       if (token) {
         localStorage.setItem("token", token);
         updateUser(response.data);
-        navigate("/dashboard");
+        if (onLoginSuccess) {
+          onLoginSuccess();
+        } else {
+          navigate("/dashboard");
+        }
       }
     } catch (error) {
       if (error.response && error.response.data.message) {

@@ -9,6 +9,8 @@ const { protect } = require('./middlewares/authMiddleware');
 const authRoutes = require("./routes/authRoutes");
 const sessionRoutes= require("./routes/sessionRoutes");
 const questionRoutes= require("./routes/questionRoutes");
+const aiRoutes = require("./routes/aiRoutes");
+const aptitudeQuestionsRoutes = require("./routes/AptitudeQuestions.js");
 
 const app = express();
 
@@ -27,9 +29,13 @@ connectDB()
 app.use(express.json());
 
 //Routes
+
 app.use("/api/auth",authRoutes);
 app.use('/api/sessions',sessionRoutes);
 app.use('/api/question',questionRoutes);
+
+app.use('/api', aiRoutes);
+app.use('/api/questions', aptitudeQuestionsRoutes);
 
 app.use('/api/ai/generate-questions', protect , generateInterviewQuestions);
 app.use("/api/ai/generate-explanation", protect , generateConceptExplanation);

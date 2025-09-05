@@ -10,40 +10,33 @@ const RoleInfoHeader = ({
 }) => {
   return (
     <>
-      <div className="bg-white relative">
-        <div className="container mx-auto px-10 md:px-0">
-          <div className="h-[200px] flex flex-col justify-center relative z-10">
-            <div className="flex items-start">
-              <div className="flex-grow">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h2 className="text-2xl font-medium">{role}</h2>
-                    <p className="text-sm text-medium text-gray-900 mt-1">
-                      {topicsToFocus}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 mt-4">
-              <div className="text-[10px] font-semibold text-white bg-black px-3 py-1 rounded-full">
+      <div className="relative rounded-xl shadow p-4 md:p-8 overflow-hidden mb-6">
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex-1 min-w-0">
+            <h2 className="text-2xl md:text-3xl font-bold text-black mb-1 truncate">{role}</h2>
+            <p className="text-sm md:text-base text-[var(--color-text-dark)] mb-2 truncate">[ {topicsToFocus} ]</p>
+            {description && (
+              <p className="text-xs md:text-sm text-gray-600 mb-2 line-clamp-2"><span className="text-gray-950">Description: </span>{description}</p>
+            )}
+            <div className="flex flex-wrap items-center gap-2 mt-2">
+              <span className="text-[13px] font-semibold text-white bg-purple-300 px-3 py-1 rounded-full">
                 Experience: {experience} {Number(experience) === 1 ? "Year" : "Years"}
-              </div>
-              <div className="text-[10px] font-semibold text-white bg-black px-3 py-1 rounded-full">
-                {questions}Q&A
-              </div>
-              <div className="text-[10px] font-semibold text-white bg-black px-3 py-1 rounded-full">
-                Last Updated : {lastUpdated}
-              </div>
+              </span>
+              <span className="text-[13px] font-semibold text-white bg-purple-300  px-3 py-1 rounded-full">
+                {questions} Q&A
+              </span>
+              <span className="text-[13px] font-semibold text-white bg-purple-300  px-3 py-1 rounded-full">
+                Last Updated: {lastUpdated}
+              </span>
             </div>
-          </div>
-          <div className="w-[40vw] md:w-[30vw] h-[200px] flex items-center justify-center bg-white overflow-hidden absolute top-0 right-0">
-            <div className="w-16 h-16 bg-lime-400 blur-[65px] animate-blob1" />
-            <div className="w-16 h-16 bg-teal-400 blur-[65px] animate-blob2" />
-            <div className="w-16 h-16 bg-cyan-300 blur-[45px] animate-blob3" />
-            <div className="w-16 h-16 bg-fuchsia-200 blur-[45px] animate-blob1" />
           </div>
         </div>
+        {/* Decorative blobs, more subtle and responsive */}
+        {/* <div className="pointer-events-none absolute top-0 right-0 w-1/2 h-full flex items-center justify-end z-0">
+          <div className="w-24 h-24 bg-[var(--color-primary)] opacity-20 blur-2xl rounded-full absolute top-2 right-10 hidden md:block" />
+          <div className="w-20 h-20 bg-[var(--color-accent-teal)] opacity-20 blur-2xl rounded-full absolute top-16 right-0" />
+          <div className="w-16 h-16 bg-[var(--color-accent-yellow)] opacity-20 blur-2xl rounded-full absolute top-24 right-20" />
+        </div> */}
       </div>
     </>
   );

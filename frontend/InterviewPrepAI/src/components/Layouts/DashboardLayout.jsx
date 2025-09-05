@@ -5,7 +5,7 @@ import { UserContext } from '../../context/userContext';
 const DashboardLayout = ({children}) => {
     const {user} = useContext(UserContext);
   return (
-    <div>
+    <div className="bg-purple-50">
       <Navbar />
   {user && <div>{children}</div>}
     </div>
