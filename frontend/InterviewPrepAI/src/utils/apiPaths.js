@@ -24,4 +24,7 @@ export const API_PATHS = {
         PIN: (id) => `/api/question/${id}/pin`, // Pin or Unpin a question (fixed to match backend)
         UPDATE_NOTE: (id) => `/api/question/${id}/note`, // Update/Add a note to a question (fixed to match backend)
     },
+    APTITUDE: {
+        GENERATE: "/api/questions", // Generate aptitude questions
+    },
 };
