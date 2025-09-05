@@ -16,8 +16,6 @@ const Login = ({ setCurrentPage, onLoginSuccess }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Submitting login");
-    console.log("API_PATHS.AUTH.LOGIN:", API_PATHS?.AUTH?.LOGIN);
     if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
       return;

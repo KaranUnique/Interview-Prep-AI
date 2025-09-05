@@ -40,7 +40,6 @@ const CreateSessionForm = () => {
 
     try{
       // Debug log to check values sent to AI API
-      console.log('Sending to AI API:', { role, experience, topicsToFocus, numberOfQuestions: 10 });
       //call AI API to generate questions
       const aiResponse = await axiosInstance.post(
         API_PATHS.AI.GENERATE_QUESTIONS,{
