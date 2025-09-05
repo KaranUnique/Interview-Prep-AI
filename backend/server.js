@@ -11,7 +11,7 @@ const sessionRoutes= require("./routes/sessionRoutes");
 const questionRoutes= require("./routes/questionRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const aptitudeQuestionsRoutes = require("./routes/AptitudeQuestions.js");
-
+import cors from "cors";
 const app = express();
 
 app.use(
@@ -47,6 +47,12 @@ app.use("/uploads", express.static(path.join(__dirname,"uploads"),{}));
 app.get('/api/test', (req, res) => {
     res.json({ message: 'API is working!' });
 });
+
+
+app.use(cors({
+  origin: ["http://localhost:5173", "https://your-frontend.vercel.app"], 
+  credentials: true
+}));
 
 //Start Server
 const PORT=process.env.PORT || 5000;
