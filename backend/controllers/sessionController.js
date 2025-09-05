@@ -6,8 +6,6 @@ const Question = require("../models/Question");
 // @access  Private
 exports.createSession = async (req, res) => {
   try {
-    console.log("CreateSession req.body:", req.body);
-    console.log("CreateSession req.user:", req.user);
   const {role , experience , topicsToFocus , description , question }= req.body;
     const userId = req.user._id || req.user.id; // support both _id and id
 
@@ -43,7 +41,6 @@ exports.createSession = async (req, res) => {
 // @access  Private
 exports.getMySessions = async (req, res) => {
     try {
-      console.log("User in request:", req.user);
       const session = await Session.find({ user: req.user.id })
         .sort({ createdAt: -1 })
         .populate("questions");
