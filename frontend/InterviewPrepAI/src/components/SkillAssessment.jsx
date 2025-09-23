@@ -1,27 +1,40 @@
-import React from "react";
-import DashboardLayout from "./Layouts/DashboardLayout";
 
-const DsaSheet = () => {
+
+
+import Navbar from "./Layouts/Navbar";
+import { LuSparkles } from "react-icons/lu";
+
+export default function SkillAssessmentComingSoon() {
   return (
     <>
-      <DashboardLayout />
-      <div className="min-h-screen flex flex-col items-center pt-50 bg-gradient-to-b from-gray-900 to-gray-800 text-gray-100">
-        <div
-          className=" bg-white/10 backdrop-blur-md border shadow-md
-                 border-white/20 hover:shadow-xl hover:scale-[1.02] 
-                 transition-all duration-300 group rounded-xl  p-10 text-center"
-        >
-          <h1 className="text-3xl font-bold text-white mb-4">
-            Skill Assessment
+      <Navbar />
+      <div className="min-h-screen w-full bg-gradient-to-b from-gray-900 to-gray-800 text-white flex flex-col items-center justify-center px-4 py-10">
+  <div className="relative rounded-xl p-10 max-w-xl w-full text-center bg-white/10 backdrop-blur-md border shadow-md border-white/20">
+          <div className="absolute -top-8 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-purple-700 px-4 py-2 rounded-full border border-purple-400 text-white font-semibold text-lg shadow">
+            <LuSparkles /> AI Powered
+          </div>
+          <h1 className="text-4xl font-bold text-white mb-4 mt-8">
+            Skill Assessment Platform
           </h1>
-          <p className="text-lg text-white/70 mb-2">Coming Soon!</p>
-          <p className="text-base text-white/70">
-           Your personalized skill assessment tools and mock tests will be available here soon to <br/>help you evaluate and improve your interview readiness.
+          <p className="text-lg text-gray-200 mb-6">
+            <span className="font-semibold text-purple-400">Coming Soon!</span> <br />
+            Our next-gen skill assessment platform will help you master interviews with realistic, AI-generated mock tests and instant feedback.
           </p>
+          <div className="mb-6">
+            <ul className="list-disc list-inside text-left text-gray-300 mx-auto max-w-md text-base">
+              <li>Role-specific mock tests for developers</li>
+              <li>Instant feedback and detailed explanations</li>
+              <li>Progress tracking and personalized insights</li>
+              <li>Powered by advanced AI for up-to-date, industry-relevant questions</li>
+            </ul>
+          </div>
+          <div className="mt-8">
+            <span className="inline-block bg-purple-600 text-white px-6 py-3 rounded-full font-semibold text-lg shadow">
+              🚀 Stay tuned for launch!
+            </span>
+          </div>
         </div>
       </div>
     </>
   );
-};
-
-export default DsaSheet;
+}

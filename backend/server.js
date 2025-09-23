@@ -14,31 +14,44 @@ const aptitudeQuestionsRoutes = require("./routes/AptitudeQuestions.js");
 // Remove ES Module import for cors. Use CommonJS require below.
 const app = express();
 
+
+// CORS settings for local and deployed frontend
 app.use(
     cors({
-        origin:"*",
-        methods:["GET","POST","PUT","DELETE"],
-        allowedHeaders:["Content-Type","Authorization"],
+        origin: [
+            "https://interview-preparation-ai-zu05.onrender.com",
+            "https://interview-prep-ai-k6xq.onrender.com"
+        ],
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization"]
     })
 );
 
-connectDB()
+
+connectDB().then(() => {
+    console.log('MongoDB connected successfully');
+}).catch((err) => {
+    console.error('MongoDB connection error:', err);
+});
 
 
 // middleware
 app.use(express.json());
 
-//Routes
 
+//Routes
 app.use("/api/auth",authRoutes);
 app.use('/api/sessions',sessionRoutes);
 app.use('/api/question',questionRoutes);
-
 app.use('/api', aiRoutes);
 app.use('/api/questions', aptitudeQuestionsRoutes);
-
+const sheetJsonUpload = require('./routes/sheetJsonUpload');
+app.use('/api/sheets', sheetJsonUpload);
+const userSheetProgressRoutes = require('./routes/userSheetProgressRoutes');
+app.use('/api/user', userSheetProgressRoutes);
 app.use('/api/ai/generate-questions', protect , generateInterviewQuestions);
-app.use("/api/ai/generate-explanation", protect , generateConceptExplanation);
+app.use('/api/ai/generate-explanation', protect , generateConceptExplanation);
 
 //Serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname,"uploads"),{}));
@@ -49,11 +62,19 @@ app.get('/api/test', (req, res) => {
 });
 
 
-app.use(cors({
-  origin: ["http://localhost:5173", "https://your-frontend.vercel.app"], 
-  credentials: true
-}));
+// Remove duplicate CORS middleware (already set above)
 
-//Start Server
-const PORT=process.env.PORT || 5000;
-app.listen(PORT);
+// Start Server
+const PORT = process.env.PORT || 5000;
+const server = app.listen(PORT, () => {
+    console.log(`Server connected and running on port ${PORT}`);
+});
+
+server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.error(`Port ${PORT} is already in use. Please free the port or use a different one.`);
+        process.exit(1);
+    } else {
+        console.error('Server error:', err);
+    }
+});

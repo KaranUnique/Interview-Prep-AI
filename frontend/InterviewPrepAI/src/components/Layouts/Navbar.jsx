@@ -50,23 +50,29 @@ const Navbar = () => {
           <div className="hidden md:flex gap-8 text-gray-200 font-medium">
             {SERVICES.map((service) => {
               const isActive = location.pathname === service.path;
+              if (service.title === "DSA Master Sheets") {
+                return (
+                  <Link
+                    to={service.path}
+                    key={service.id}
+                    className={`relative cursor-pointer transition-all duration-200 hover:text-violet-300 ${isActive ? "text-violet-400" : "text-gray-300"}`}
+                  >
+                    {service.title}
+                    <span
+                      className={`absolute -bottom-1 left-0 w-full h-[2px] rounded-full transition-all duration-300 ${isActive ? "bg-gradient-to-r from-violet-400 to-fuchsia-400" : "opacity-0 group-hover:opacity-100"}`}
+                    />
+                  </Link>
+                );
+              }
               return (
                 <span
                   key={service.id}
-                  className={`relative cursor-pointer transition-all duration-200
-                    hover:text-violet-300 ${
-                      isActive ? "text-violet-400" : "text-gray-300"
-                    }`}
+                  className={`relative cursor-pointer transition-all duration-200 hover:text-violet-300 ${isActive ? "text-violet-400" : "text-gray-300"}`}
                   onClick={() => handleServiceClick(service)}
                 >
                   {service.title}
                   <span
-                    className={`absolute -bottom-1 left-0 w-full h-[2px] rounded-full
-                      transition-all duration-300 ${
-                        isActive
-                          ? "bg-gradient-to-r from-violet-400 to-fuchsia-400"
-                          : "opacity-0 group-hover:opacity-100"
-                      }`}
+                    className={`absolute -bottom-1 left-0 w-full h-[2px] rounded-full transition-all duration-300 ${isActive ? "bg-gradient-to-r from-violet-400 to-fuchsia-400" : "opacity-0 group-hover:opacity-100"}`}
                   />
                 </span>
               );

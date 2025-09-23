@@ -1,6 +1,7 @@
 import Compiler from "./components/Compiler";
 import SkillAssessment from "./components/SkillAssessment";
-import DsaSheet from "./components/DsaSheet";
+import DsaSheet from "./components/SheetDetailsPage";
+import SheetList from "./components/SheetList";
 // ...existing code...
 import UserProvider from "./context/userContext";
 import React from "react";
@@ -55,7 +56,8 @@ const App = () => {
             <Route path="/role-prep" element={<Dashboard />} />
             <Route path="/ai-insight" element={<AIHelper />} />
             <Route path="/ai-assistance" element={<AIHelper />} />
-            <Route path="/coding-sheets" element={<DsaSheet />} />
+            <Route path="/coding-sheets" element={<SheetList type="all" />} />
+            <Route path="/sheet/:id" element={<DsaSheet />} />
             <Route path="/assessment" element={<SkillAssessment />} />
             <Route path="/compiler" element={<Compiler />} />
           </Routes>
