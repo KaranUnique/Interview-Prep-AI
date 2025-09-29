@@ -3,7 +3,6 @@ const router = express.Router();
 
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Use Gemini to generate a real answer
 router.post('/generate', async (req, res) => {
@@ -12,7 +11,8 @@ router.post('/generate', async (req, res) => {
     return res.status(400).json({ error: "Missing prompt" });
   }
   try {
-  const model = ai.getGenerativeModel({ model: "gemini-pro" });
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const result = await model.generateContent(prompt);
     const rawText = await result.response.text();
     // Clean up any code block markers
