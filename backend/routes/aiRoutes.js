@@ -12,8 +12,8 @@ router.post('/generate', async (req, res) => {
     return res.status(400).json({ error: "Missing prompt" });
   }
   try {
-  const model = ai.getGenerativeModel({ model: "gemini-1.5-pro" });
-    const result = await model.generateContent([prompt]);
+  const model = ai.getGenerativeModel({ model: "gemini-pro" });
+    const result = await model.generateContent(prompt);
     const rawText = await result.response.text();
     // Clean up any code block markers
     let cleanedText = rawText
