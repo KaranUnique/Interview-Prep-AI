@@ -15,18 +15,32 @@ const aptitudeQuestionsRoutes = require("./routes/AptitudeQuestions.js");
 const app = express();
 
 
-// CORS settings for local and deployed frontend
-app.use(
-    cors({
-        origin: [
-            "https://interview-preparation-ai-zu05.onrender.com",
-            "https://interview-prep-ai-k6xq.onrender.com"
-        ],
-        credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"]
-    })
-);
+// CORS settings: derive from env
+// FRONTEND_ORIGIN=primary production frontend
+// EXTRA_ORIGINS=comma separated additional origins (staging, preview, etc.)
+const isDev = process.env.NODE_ENV !== 'production';
+const originEnvList = [
+    process.env.FRONTEND_ORIGIN,
+    ...(process.env.EXTRA_ORIGINS ? process.env.EXTRA_ORIGINS.split(',') : []),
+    ...(isDev ? ['http://localhost:5173'] : [])
+].filter(Boolean).map(o => o.trim());
+
+const allowedOrigins = new Set(originEnvList);
+
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (origin && (allowedOrigins.has(origin) || /^http:\/\/127\.0\.0\.1:5\d{3}$/.test(origin))) {
+        res.header('Access-Control-Allow-Origin', origin);
+        res.header('Vary', 'Origin');
+        res.header('Access-Control-Allow-Credentials', 'true');
+    }
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+    next();
+});
 
 
 connectDB().then(() => {
@@ -68,6 +82,14 @@ app.get('/api/test', (req, res) => {
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
     console.log(`Server connected and running on port ${PORT}`);
+    if (process.env.NODE_ENV === 'production') {
+        console.log('Allowed CORS origins (production):');
+    } else {
+        console.log('Allowed CORS origins (development):');
+    }
+    for (const o of allowedOrigins) {
+        console.log('  -', o);
+    }
 });
 
 server.on('error', (err) => {

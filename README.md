@@ -72,3 +72,58 @@ This project is licensed under the MIT License.
 ---
 
 *Built with ❤️ by KaranUnique*
+
+## Deployment (Render + Static Frontend)
+
+### 1. Deploy Backend on Render
+1. Push latest code to `main`.
+2. Create a new Web Service on Render:
+    - Repository: this repo
+    - Root directory: `backend`
+    - Build Command: `npm install`
+    - Start Command: `node server.js` (or `npm start` if defined)
+    - Environment: add the variables from `backend/.env.example`:
+       - `PORT` (Render usually injects `PORT` automatically, but keep default fallback)
+       - `MONGO_URI`
+       - `JWT_SECRET`
+       - `GEMINI_API_KEY` / `GEMINI_MODEL` (or other AI keys)
+       - `FRONTEND_ORIGIN` set later to the deployed frontend URL
+       - (Optional) `EXTRA_ORIGINS` comma-separated for preview builds
+
+After deploy, note the Render backend URL, e.g. `https://your-backend.onrender.com`.
+
+### 2. Configure Frontend
+In `frontend/InterviewPrepAI`, create `.env.production` (or `.env` for a static host) with:
+```
+VITE_BACKEND_URL=https://your-backend.onrender.com
+```
+
+Rebuild the frontend: `npm run build`.
+
+### 3. Deploy Frontend
+You can deploy the `dist/` output to:
+- Render Static Site (root: `frontend/InterviewPrepAI`, build command: `npm install && npm run build`, publish directory: `dist`)
+- Netlify / Vercel / GitHub Pages
+
+After the frontend deploys, copy its public URL and update the backend service env var `FRONTEND_ORIGIN` to that URL. Redeploy backend (Render auto-redeploys after env change).
+
+### 4. CORS Behavior
+Backend dynamically allows:
+- `FRONTEND_ORIGIN`
+- Any origins in `EXTRA_ORIGINS`
+- Local dev: `http://localhost:5173`
+
+If you have multiple staging URLs, set `EXTRA_ORIGINS=https://staging-1.onrender.com,https://staging-2.onrender.com`.
+
+### 5. Local Development vs Production
+- Local: `.env.development` uses `VITE_BACKEND_URL=http://localhost:8000` and Vite proxy handles `/api`.
+- Production: Direct calls go to the absolute `VITE_BACKEND_URL`; no proxy configured.
+
+### 6. Troubleshooting
+| Issue | Fix |
+|-------|-----|
+| 401 after deploy | Ensure JWT secret consistent; clear localStorage token |
+| CORS error | Verify `FRONTEND_ORIGIN` matches exact protocol + domain + (no trailing slash) |
+| 404 API | Confirm `VITE_BACKEND_URL` has no trailing slash and includes https |
+| Mixed content | Use https backend URL |
+

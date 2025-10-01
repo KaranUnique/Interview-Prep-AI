@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Navbar from "./Layouts/Navbar";
 import { FiTrendingUp, FiBookOpen } from "react-icons/fi";
 import { FiHelpCircle, FiUsers } from "react-icons/fi";
+import { BASE_URL } from "../utils/apiPaths";
 
 function SheetList({ type }) {
   const [sheetList, setSheetList] = useState([]);
@@ -12,7 +13,7 @@ function SheetList({ type }) {
 
   useEffect(() => {
     // Fetch sheets from backend API
-  fetch("https://interview-prep-ai-k6xq.onrender.com/api/sheets")
+    fetch(`${BASE_URL}/api/sheets`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched sheets:", data.sheets);

@@ -4,6 +4,7 @@ import leetcode from "../assets/leetcode.svg";
 import youtube from "../assets/youtube.svg";
 import { useState, useEffect } from "react";
 import Navbar from "./Layouts/Navbar";
+import { BASE_URL } from "../utils/apiPaths";
 
 function SheetDetail() {
   const { id } = useParams();
@@ -13,15 +14,15 @@ function SheetDetail() {
   const [followed, setFollowed] = useState(false);
 
   useEffect(() => {
-  fetch(`https://interview-prep-ai-k6xq.onrender.com/api/sheets/${id}`)
+    fetch(`${BASE_URL}/api/sheets/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setSheet(data.sheet);
         const saved = localStorage.getItem(`${id}-progress`);
         if (saved) {
           const progressData = JSON.parse(saved);
-          setFollowed(progressData.followed || false);
-          setCompletedTopics(progressData.completedTopics || {});
+            setFollowed(progressData.followed || false);
+            setCompletedTopics(progressData.completedTopics || {});
         }
         setLoading(false);
       })
