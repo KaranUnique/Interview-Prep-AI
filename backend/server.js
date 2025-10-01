@@ -33,6 +33,13 @@ app.use((req, res, next) => {
         res.header('Access-Control-Allow-Origin', origin);
         res.header('Vary', 'Origin');
         res.header('Access-Control-Allow-Credentials', 'true');
+    } else if (origin) {
+        // Debug log for rejected origins (only once per process for each origin)
+        if (!global.__rejectedCors) global.__rejectedCors = new Set();
+        if (!global.__rejectedCors.has(origin)) {
+            global.__rejectedCors.add(origin);
+            console.warn('[CORS] Rejected origin:', origin);
+        }
     }
     res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
