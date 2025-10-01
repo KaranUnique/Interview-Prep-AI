@@ -29,7 +29,8 @@ const allowedOrigins = new Set(originEnvList);
 
 app.use((req, res, next) => {
     const origin = req.headers.origin;
-    if (origin && (allowedOrigins.has(origin) || /^http:\/\/127\.0\.0\.1:5\d{3}$/.test(origin))) {
+    const renderPattern = /^https:\/\/interview-prep(?:aration)?-ai-[a-z0-9-]+\.onrender\.com$/;
+    if (origin && (allowedOrigins.has(origin) || renderPattern.test(origin) || /^http:\/\/127\.0\.0\.1:5\d{3}$/.test(origin))) {
         res.header('Access-Control-Allow-Origin', origin);
         res.header('Vary', 'Origin');
         res.header('Access-Control-Allow-Credentials', 'true');
