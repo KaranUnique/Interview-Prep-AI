@@ -89,7 +89,8 @@ const InterviewPrep = () => {
           numberOfQuestions: 10,
         }
       );
-      const generatedQuestions = aiResponse.data;
+      // Extract the question array from the response
+      const generatedQuestions = aiResponse.data.question || aiResponse.data;
 
       const response = await axiosInstance.post(
         API_PATHS.QUESTION.ADD_TO_SESSION,
