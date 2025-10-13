@@ -21,7 +21,6 @@ const generateInterviewQuestions = async (req, res) => {
     // Use stable Gemini model
     const candidateModels = [
       process.env.GEMINI_MODEL,
-        'gemini-1.5-flash',
         'gemini-2.5-flash-preview-09-2025',
         'gemini-2.5-pro-preview-05-06'
     ].filter(Boolean);
@@ -85,7 +84,6 @@ const generateConceptExplanation = async (req, res) => {
 
     const candidateModels = [
       process.env.GEMINI_MODEL,
-      'gemini-1.5-flash',
       'gemini-2.5-flash-preview-09-2025',
       'gemini-2.5-pro-preview-05-06'
     ].filter(Boolean);

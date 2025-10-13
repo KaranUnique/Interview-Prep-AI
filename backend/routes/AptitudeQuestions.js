@@ -26,8 +26,34 @@ router.get("/", async (req, res) => {
   `;
 
   try {
-    const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContent([prompt]);
+    // Use working Gemini models with fallback
+    const candidateModels = [
+      process.env.GEMINI_MODEL,
+      'gemini-2.5-flash-preview-09-2025',
+      'gemini-2.5-pro-preview-05-06'
+    ].filter(Boolean);
+    
+    let lastErr = null;
+    let result = null;
+    let usedModel = null;
+    
+    for (const m of candidateModels) {
+      try {
+        console.log(`[Aptitude] Trying model: ${m}`);
+        const model = ai.getGenerativeModel({ model: m });
+        result = await model.generateContent([prompt]);
+        usedModel = m;
+        console.log(`[Aptitude] Successfully used model: ${m}`);
+        break;
+      } catch (e) {
+        console.error(`[Aptitude] Model ${m} failed:`, e.message);
+        lastErr = e;
+        continue;
+      }
+    }
+    
+    if (!result) throw lastErr || new Error('All Gemini models failed');
+    
     const rawText = await result.response.text();
     let cleanedText = rawText
       .replace(/^\s*```json\s*/i, "")
