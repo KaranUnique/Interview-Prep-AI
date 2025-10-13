@@ -51,7 +51,12 @@ const generateInterviewQuestions = async (req, res) => {
 
     try {
       const data = JSON.parse(cleanedText);
-  res.status(200).json({ model: usedModel, ...data });
+      // Handle array response (questions) vs object response
+      if (Array.isArray(data)) {
+        res.status(200).json({ model: usedModel, question: data });
+      } else {
+        res.status(200).json({ model: usedModel, ...data });
+      }
     } catch (err) {
       console.error("Gemini returned invalid JSON:", cleanedText); // Log the cleaned text
       res.status(500).json({
