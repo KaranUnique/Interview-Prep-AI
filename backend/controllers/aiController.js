@@ -21,18 +21,24 @@ const generateInterviewQuestions = async (req, res) => {
     // Use stable Gemini model
     const candidateModels = [
       process.env.GEMINI_MODEL,
-      'gemini-1.5-flash',
-      'gemini-1.5-pro',
-      'gemini-pro',
-      'gemini-1.0-pro'
+        'gemini-1.5-flash',
+        'gemini-2.5-flash-preview-09-2025',
+        'gemini-2.5-pro-preview-05-06'
     ].filter(Boolean);
     let lastErr = null; let result = null; let usedModel = null;
     for (const m of candidateModels) {
       try {
+        console.log(`Trying model: ${m}`);
         const model = ai.getGenerativeModel({ model: m });
         result = await model.generateContent([prompt]);
-        usedModel = m; break;
-      } catch (e) { lastErr = e; continue; }
+        usedModel = m; 
+        console.log(`Successfully used model: ${m}`);
+        break;
+      } catch (e) { 
+        console.error(`Model ${m} failed:`, e.message);
+        lastErr = e; 
+        continue; 
+      }
     }
     if (!result) throw lastErr || new Error('All Gemini models failed');
 
@@ -80,17 +86,23 @@ const generateConceptExplanation = async (req, res) => {
     const candidateModels = [
       process.env.GEMINI_MODEL,
       'gemini-1.5-flash',
-      'gemini-1.5-pro',
-      'gemini-pro',
-      'gemini-1.0-pro'
+      'gemini-2.5-flash-preview-09-2025',
+      'gemini-2.5-pro-preview-05-06'
     ].filter(Boolean);
     let lastErr = null; let result = null; let usedModel = null;
     for (const m of candidateModels) {
       try {
+        console.log(`Trying model: ${m}`);
         const model = ai.getGenerativeModel({ model: m });
         result = await model.generateContent([prompt]);
-        usedModel = m; break;
-      } catch (e) { lastErr = e; continue; }
+        usedModel = m; 
+        console.log(`Successfully used model: ${m}`);
+        break;
+      } catch (e) { 
+        console.error(`Model ${m} failed:`, e.message);
+        lastErr = e; 
+        continue; 
+      }
     }
     if (!result) throw lastErr || new Error('All Gemini models failed');
 
