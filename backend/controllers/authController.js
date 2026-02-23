@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { validatePassword } = require("../utils/passwordValidator");
 
 const generateToken = (userId) => {
     return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "7d" });
@@ -12,6 +13,18 @@ const generateToken = (userId) => {
 const registerUser = async (req, res) => {
     try {
         const { name, email, password, profileImageUrl } = req.body;
+
+        // Validate password strength and policy
+        const passwordValidation = validatePassword(password);
+        if (!passwordValidation.isValid) {
+            const errorMessages = passwordValidation.policyValidation.errors || [];
+            return res.status(400).json({
+                message: "Password does not meet security requirements",
+                errors: errorMessages,
+                strengthScore: passwordValidation.strengthValidation?.score || 0,
+            });
+        }
+
         const userExists = await User.findOne({ email });
         if (userExists) {
             return res.status(400).json({ message: "User already exists" });
