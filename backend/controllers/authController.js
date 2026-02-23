@@ -2,6 +2,8 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { validatePassword } = require("../utils/passwordValidator");
+const { sendSuccess, sendError } = require("../utils/apiResponse");
+const { ERROR_CODES } = require("../utils/errorCodes");
 
 const generateToken = (userId) => {
     return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "7d" });
@@ -18,16 +20,18 @@ const registerUser = async (req, res) => {
         const passwordValidation = validatePassword(password);
         if (!passwordValidation.isValid) {
             const errorMessages = passwordValidation.policyValidation.errors || [];
-            return res.status(400).json({
-                message: "Password does not meet security requirements",
-                errors: errorMessages,
-                strengthScore: passwordValidation.strengthValidation?.score || 0,
-            });
+            return sendError(
+                res,
+                ERROR_CODES.PASSWORD_TOO_WEAK,
+                400,
+                "Password does not meet security requirements",
+                { requirements: errorMessages, strengthScore: passwordValidation.strengthValidation?.score || 0 }
+            );
         }
 
         const userExists = await User.findOne({ email });
         if (userExists) {
-            return res.status(400).json({ message: "User already exists" });
+            return sendError(res, ERROR_CODES.EMAIL_ALREADY_REGISTERED);
         }
 
         // hash password
@@ -43,15 +47,27 @@ const registerUser = async (req, res) => {
         });
 
         // Return user data with JWT
-        res.status(201).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            profileImageUrl: user.profileImageUrl,
-            token: generateToken(user._id),
-        });
+        return sendSuccess(
+            res,
+            {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                profileImageUrl: user.profileImageUrl,
+                token: generateToken(user._id),
+            },
+            "User registered successfully",
+            201
+        );
     } catch (error) {
-        res.status(500).json({ message: "Server error", error: error.message });
+        console.error('Register error:', error.message, error.stack);
+        return sendError(
+            res,
+            ERROR_CODES.DATABASE_ERROR,
+            500,
+            "Registration failed",
+            process.env.NODE_ENV === 'development' ? error.message : undefined
+        );
     }
 };
 
@@ -59,29 +75,45 @@ const registerUser = async (req, res) => {
 // @route POST /api/auth/login
 // @access Public
 const loginUser = async (req, res) => {
-    try{
-        const {email,password}= req.body;
-        const user = await User.findOne({email});
-        if(!user){
-            return res.status(500).json({message:"Invalid email or password"})
+    try {
+        const { email, password } = req.body;
+
+        // Validate required fields
+        if (!email || !password) {
+            return sendError(res, ERROR_CODES.MISSING_REQUIRED_FIELD, 400, "Email and password are required");
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return sendError(res, ERROR_CODES.INVALID_CREDENTIALS);
         }
 
         // compare password
         const isMatch = await bcrypt.compare(password, user.password);
-        if(!isMatch){
-            return res.status(500).json({message:"Invalid email or password"});
+        if (!isMatch) {
+            return sendError(res, ERROR_CODES.INVALID_CREDENTIALS);
         }
 
         // return user data with JWT
-        res.json({
-            _id:user._id,
-            name:user.name,
-            email:user.email,
-            profileImageUrl:user.profileImageUrl,
-            token:generateToken(user._id),
-        });
-    }catch(error){
-        res.status(500).json({ message: "Server error", error: error.message });
+        return sendSuccess(
+            res,
+            {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                profileImageUrl: user.profileImageUrl,
+                token: generateToken(user._id),
+            },
+            "Login successful"
+        );
+    } catch (error) {
+        sendError(
+            res,
+            ERROR_CODES.DATABASE_ERROR,
+            500,
+            "Login failed",
+            process.env.NODE_ENV === 'development' ? error.message : undefined
+        );
     }
 };
 
@@ -89,14 +121,20 @@ const loginUser = async (req, res) => {
 // @route GET /api/auth/profile
 // @access Private (Require JWT)
 const getUserProfile = async (req, res) => {
-     try{
+    try {
         const user = await User.findById(req.user.id).select("-password");
-        if(!user){
-            return res.status(404).json({message:"User not found"});
+        if (!user) {
+            return sendError(res, ERROR_CODES.USER_NOT_FOUND);
         }
-        res.json(user);
-    }catch(error){
-        res.status(500).json({ message: "Server error", error: error.message });
+        return sendSuccess(res, user, "User profile retrieved successfully");
+    } catch (error) {
+        sendError(
+            res,
+            ERROR_CODES.DATABASE_ERROR,
+            500,
+            "Failed to retrieve profile",
+            process.env.NODE_ENV === 'development' ? error.message : undefined
+        );
     }
 };
 

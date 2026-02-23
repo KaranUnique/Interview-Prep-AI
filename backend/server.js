@@ -5,6 +5,7 @@ const path= require("path");
 const connectDB = require("./config/db");
 const { generateInterviewQuestions, generateConceptExplanation } = require('./controllers/aiController');
 const { protect } = require('./middlewares/authMiddleware');
+const { errorHandler } = require('./middlewares/errorMiddleware');
 // const Question = require("./models/Question");
 const authRoutes = require("./routes/authRoutes");
 const sessionRoutes= require("./routes/sessionRoutes");
@@ -85,6 +86,20 @@ app.get('/api/test', (req, res) => {
 
 
 // Remove duplicate CORS middleware (already set above)
+
+// Global Error Handling Middleware - Must be last
+app.use(errorHandler);
+
+// 404 handler
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        errorCode: 'RESOURCE_NOT_FOUND',
+        message: 'Route not found',
+        statusCode: 404,
+        timestamp: new Date().toISOString(),
+    });
+});
 
 // Start Server
 const PORT = process.env.PORT || 5000;
