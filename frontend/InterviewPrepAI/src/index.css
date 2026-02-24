@@ -1,23 +1,41 @@
 @import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 :root {
   --font-display: 'Urbanist', sans-serif;
-  --color-primary:rgb(139, 139, 226); 
+  --color-primary: rgb(139, 139, 226); 
   --color-secondary: #F0F4F8; /* Light Gray */
-  --color-accent-teal:#e99a4b; 
+  --color-accent-teal: #e99a4b; 
   --color-accent-yellow: #FFD700; /* Bright Yellow */
   --color-text-dark: #333333; /* Dark Gray */
   --color-text-light: #FFFFFF; /* White */
+  --color-background: #FFFFFF;
+  --color-surface: #F0F4F8;
+  --color-border: #E5E7EB;
+}
+
+html.dark {
+  --color-primary: rgb(147, 147, 255);
+  --color-secondary: #1F2937;
+  --color-accent-teal: #f5a962;
+  --color-accent-yellow: #FCD34D;
+  --color-text-dark: #F9FAFB;
+  --color-text-light: #111827;
+  --color-background: #111827;
+  --color-surface: #1F2937;
+  --color-border: #374151;
 }
 @layer base {
   html {
     font-family: var(--font-display);
   }
   body {
-    background-color: var(--color-secondary);
+    background-color: var(--color-background);
     color: var(--color-text-dark);
     overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 .custom-scrollbar::-webkit-scrollbar {
@@ -96,13 +114,14 @@
   gap: 0.75rem;
   font-size: 0.875rem;
   color: var(--color-text-dark);
-  background: var(--color-secondary);
+  background: var(--color-surface);
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
   margin-top: 0.75rem;
-  border: 1px solid var(--color-primary);
+  border: 1px solid var(--color-border);
   outline: none;
+  transition: border-color 0.2s, background-color 0.3s;
 }
 .input-box:focus-within {
   border-color: var(--color-accent-teal);

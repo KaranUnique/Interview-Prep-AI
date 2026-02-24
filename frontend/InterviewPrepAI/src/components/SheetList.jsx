@@ -59,7 +59,7 @@ function SheetList({ type }) {
     return (
       <>
         <Navbar />
-        <p className="p-4 text-white">Loading sheets...</p>
+        <p className="p-4 text-gray-900 dark:text-white">Loading sheets...</p>
       </>
     );
   if (!Array.isArray(sheetList)) return <p>No sheets available.</p>;
@@ -80,19 +80,19 @@ function SheetList({ type }) {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white px-6 py-8">
-        <p className="text-2xl font-bold mb-8 flex items-center gap-2">
+      <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-white px-6 py-8 transition-colors duration-300">
+        <p className="text-2xl font-bold mb-8 flex items-center gap-2 transition-colors duration-300">
           {type === "popular" ? (
             <>
-              <FiTrendingUp className="text-yellow-400" size={28} /> Popular Sheets
+              <FiTrendingUp className="text-yellow-500 dark:text-yellow-400" size={28} /> Popular Sheets
             </>
           ) : type === "all" ? (
             <>
-              <FiBookOpen className="text-blue-400" size={28} /> All Sheets
+              <FiBookOpen className="text-blue-600 dark:text-blue-400" size={28} /> All Sheets
             </>
           ) : type && typeof type === "string" ? (
             <>
-              <FiBookOpen className="text-purple-400" size={28} /> {`${type.toUpperCase()} Sheets`}
+              <FiBookOpen className="text-purple-600 dark:text-purple-400" size={28} /> {`${type.toUpperCase()} Sheets`}
             </>
           ) : (
             <>Sheets</>
@@ -108,23 +108,23 @@ function SheetList({ type }) {
               <Link
                 to={`/sheet/${sheet.id}`}
                 key={sheet.id}
-                className="relative bg-white/10 backdrop-blur-md border border-white/10 rounded-xl p-3 flex flex-col shadow-md hover:shadow-lg hover:scale-[1.01] transition-all duration-300 min-h-[180px]"
+                className="relative bg-purple-50 dark:bg-white/10 backdrop-blur-md border border-purple-100 dark:border-white/10 rounded-xl p-3 flex flex-col shadow-md hover:shadow-lg hover:scale-[1.01] transition-all duration-300 min-h-[180px]"
               >
-                  <h3 className="text-base py-1 font-semibold text-white">
-                    {sheet.title}
-                  </h3>
-                <p className="text-gray-300 text-xs mb-2 line-clamp-2">
+                <h3 className="text-base py-1 font-semibold text-gray-900 dark:text-white transition-colors duration-300">
+                  {sheet.title}
+                </h3>
+                <p className="text-gray-700 dark:text-gray-300 text-xs mb-2 line-clamp-2 transition-colors duration-300">
                   {sheet.description}
                 </p>
-                <p className="text-gray-400 text-[11px] mb-1 flex items-center gap-1">
-                  <FiHelpCircle className="text-purple-400" /> {sheet.questions}{" "}
+                <p className="text-gray-600 dark:text-gray-400 text-[11px] mb-1 flex items-center gap-1 transition-colors duration-300">
+                  <FiHelpCircle className="text-purple-600 dark:text-purple-400" /> {sheet.questions}{" "}
                   Questions
                 </p>
-                <p className="text-gray-400 text-[11px] mb-2 flex items-center gap-1">
-                  <FiUsers className="text-purple-400" /> {sheet.followers}{" "}
+                <p className="text-gray-600 dark:text-gray-400 text-[11px] mb-2 flex items-center gap-1 transition-colors duration-300">
+                  <FiUsers className="text-purple-600 dark:text-purple-400" /> {sheet.followers}{" "}
                   Followers
                 </p>
-                <div className="w-full bg-gray-700 h-1.5 rounded-full mb-2">
+                <div className="w-full bg-gray-300 dark:bg-gray-700 h-1.5 rounded-full mb-2 transition-colors duration-300">
                   <div
                     className="h-1.5 rounded-full bg-purple-500 transition-all"
                     style={{ width: `${progress}%` }}
@@ -155,7 +155,7 @@ function SheetList({ type }) {
           <div className="text-center mt-8">
             <button
               onClick={() => setShowAll(!showAll)}
-              className="px-5 py-2 text-sm font-semibold bg-white/10 rounded-lg hover:bg-white/20 transition"
+              className="px-5 py-2 text-sm font-semibold bg-purple-100 dark:bg-white/10 text-purple-700 dark:text-white rounded-lg hover:bg-purple-200 dark:hover:bg-white/20 transition"
             >
               {showAll ? "Show Less" : "Show More"}
             </button>

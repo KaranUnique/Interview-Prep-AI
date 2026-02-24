@@ -48,10 +48,10 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white md:px-10 relative overflow-hidden">
+      <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-white md:px-10 relative overflow-hidden transition-colors duration-300">
         <div className="container mx-auto pt-8 pb-16 relative z-10">
-          <h1 className="md:text-2xl text-lg mb-5 font-semibold text-white md:mb-10">
-            Your <span className="text-white">Interview Sessions</span>
+          <h1 className="md:text-2xl text-lg mb-5 font-semibold text-gray-900 dark:text-white md:mb-10 transition-colors duration-300">
+            Your Interview Sessions
           </h1>
 
           {/* Sessions Grid */}
@@ -73,7 +73,7 @@ const Dashboard = () => {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-16 text-center text-gray-200">
+            <div className="flex flex-col items-center justify-center py-16 text-center text-gray-600 dark:text-gray-200 transition-colors duration-300">
               <p className="mb-2 font-semibold">No sessions found</p>
               <p>
                 Click <span className="font-semibold text-purple-500">Add New</span> to create
@@ -84,7 +84,7 @@ const Dashboard = () => {
 
           {/* Add New Floating Button */}
           <button
-            className="fixed bottom-10 right-10 md:bottom-16 md:right-16 h-12 flex items-center gap-2 px-6 bg-purple-500 text-white rounded-full shadow-lg hover:shadow-2xl transition"
+            className="fixed bottom-10 right-10 md:bottom-16 md:right-16 h-12 flex items-center gap-2 px-6 bg-purple-500 text-white rounded-full shadow-lg hover:shadow-2xl hover:bg-purple-600 transition"
             onClick={() => setOpenCreateModal(true)}
           >
             <LuPlus className="text-xl" /> Add New
