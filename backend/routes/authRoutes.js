@@ -1,13 +1,14 @@
 const express = require("express");
-const {registerUser,loginUser, getUserProfile} = require("../controllers/authController");
-const {protect} = require("../middlewares/authMiddleware");
+const { registerUser, loginUser, getUserProfile } = require("../controllers/authController");
+const { protect } = require("../middlewares/authMiddleware");
 const upload = require("../middlewares/uploadMiddleware");
 const router = express.Router();
+const { authLimiter } = require("../middlewares/rateLimiter");
 
 // Auth Routes
-router.post("/register",registerUser);
-router.post("/login",loginUser);
-router.get("/profile",protect,getUserProfile);
+router.post("/register", authLimiter, registerUser);
+router.post("/login", authLimiter, loginUser);
+router.get("/profile", protect, getUserProfile);
 
 
 
@@ -19,4 +20,4 @@ router.post("/upload-image", upload.single("image"), (req, res) => {
     res.status(200).json({ imageUrl });
 });
 
-module.exports=router;
+module.exports = router;

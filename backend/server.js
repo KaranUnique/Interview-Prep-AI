@@ -1,16 +1,17 @@
 require("dotenv").config();
 const express = require("express");
-const cors=require("cors");
-const path= require("path");
+const cors = require("cors");
+const path = require("path");
 const connectDB = require("./config/db");
 const { generateInterviewQuestions, generateConceptExplanation } = require('./controllers/aiController');
 const { protect } = require('./middlewares/authMiddleware');
 // const Question = require("./models/Question");
 const authRoutes = require("./routes/authRoutes");
-const sessionRoutes= require("./routes/sessionRoutes");
-const questionRoutes= require("./routes/questionRoutes");
+const sessionRoutes = require("./routes/sessionRoutes");
+const questionRoutes = require("./routes/questionRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const aptitudeQuestionsRoutes = require("./routes/AptitudeQuestions.js");
+const { generalLimiter, aiLimiter } = require("./middlewares/rateLimiter");
 // Remove ES Module import for cors. Use CommonJS require below.
 const app = express();
 
@@ -63,20 +64,20 @@ app.use(express.json());
 
 
 //Routes
-app.use("/api/auth",authRoutes);
-app.use('/api/sessions',sessionRoutes);
-app.use('/api/question',questionRoutes);
+app.use("/api/auth", authRoutes);
+app.use('/api/sessions', generalLimiter, sessionRoutes);
+app.use('/api/question', generalLimiter, questionRoutes);
 app.use('/api', aiRoutes);
-app.use('/api/questions', aptitudeQuestionsRoutes);
+app.use('/api/questions', generalLimiter, aptitudeQuestionsRoutes);
 const sheetJsonUpload = require('./routes/sheetJsonUpload');
-app.use('/api/sheets', sheetJsonUpload);
+app.use('/api/sheets', generalLimiter, sheetJsonUpload);
 const userSheetProgressRoutes = require('./routes/userSheetProgressRoutes');
-app.use('/api/user', userSheetProgressRoutes);
-app.use('/api/ai/generate-questions', protect , generateInterviewQuestions);
-app.use('/api/ai/generate-explanation', protect , generateConceptExplanation);
+app.use('/api/user', generalLimiter, userSheetProgressRoutes);
+app.use('/api/ai/generate-questions', aiLimiter, protect, generateInterviewQuestions);
+app.use('/api/ai/generate-explanation', aiLimiter, protect, generateConceptExplanation);
 
 //Serve uploads folder
-app.use("/uploads", express.static(path.join(__dirname,"uploads"),{}));
+app.use("/uploads", express.static(path.join(__dirname, "uploads"), {}));
 
 // Debug route to verify backend is working
 app.get('/api/test', (req, res) => {
