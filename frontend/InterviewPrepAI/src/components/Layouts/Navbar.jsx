@@ -5,6 +5,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 import Modal from "../Loader/Modal";
 import Login from "../../pages/Auth/Login";
+import ThemeToggle from "../ThemeToggle";
 
 const Navbar = () => {
   const SERVICES = [
@@ -56,14 +57,14 @@ const Navbar = () => {
     <>
       {/* Navbar */}
       <div
-        className="h-16 sticky top-0 z-40 bg-[#0b1120]/95 md:bg-gradient-to-r md:from-[#0a0f1f] md:via-[#0d1229] md:to-[#0a0f1f] backdrop-blur-md border-b border-violet-500/30 shadow-lg px-1"
+        className="h-16 sticky top-0 z-40 bg-white/95 dark:bg-[#0b1120]/95 md:bg-white md:dark:bg-gradient-to-r md:dark:from-[#0a0f1f] md:dark:via-[#0d1229] md:dark:to-[#0a0f1f] backdrop-blur-md border-b border-gray-200 dark:border-violet-500/30 shadow-sm dark:shadow-lg px-1 transition-colors duration-300"
       >
         <div className="container mx-auto flex items-center justify-between px-4 md:px-10 h-full">
           {/* Logo */}
           <Link to="/">
-            <h2 className="text-lg md:text-2xl font-bold text-white tracking-wide">
+            <h2 className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white tracking-wide transition-colors duration-300">
               Interview{" "}
-              <span className="text-violet-400 drop-shadow-[0_0_6px_rgba(167,139,250,0.9)]">
+              <span className="text-violet-600 dark:text-violet-400 drop-shadow-[0_0_6px_rgba(167,139,250,0.9)]">
                 Prep AI
               </span>
             </h2>
@@ -92,7 +93,7 @@ const Navbar = () => {
           </button>
 
           {/* Services Nav (Desktop) */}
-          <div className="hidden md:flex gap-8 text-gray-200 font-medium">
+          <div className="hidden md:flex gap-8 text-gray-700 dark:text-gray-200 font-medium transition-colors duration-300">
             {SERVICES.map((service) => {
               const isActive = location.pathname === service.path;
               if (service.title === "DSA Master Sheets") {
@@ -100,11 +101,11 @@ const Navbar = () => {
                   <Link
                     to={service.path}
                     key={service.id}
-                    className={`relative cursor-pointer transition-all duration-200 hover:text-violet-300 ${isActive ? "text-violet-400" : "text-gray-300"}`}
+                    className={`relative cursor-pointer transition-all duration-200 hover:text-violet-600 dark:hover:text-violet-300 ${isActive ? "text-violet-600 dark:text-violet-400" : "text-gray-700 dark:text-gray-300"}`}
                   >
                     {service.title}
                     <span
-                      className={`absolute -bottom-1 left-0 w-full h-[2px] rounded-full transition-all duration-300 ${isActive ? "bg-gradient-to-r from-violet-400 to-fuchsia-400" : "opacity-0 group-hover:opacity-100"}`}
+                      className={`absolute -bottom-1 left-0 w-full h-[2px] rounded-full transition-all duration-300 ${isActive ? "bg-gradient-to-r from-violet-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400" : "opacity-0 group-hover:opacity-100"}`}
                     />
                   </Link>
                 );
@@ -112,21 +113,22 @@ const Navbar = () => {
               return (
                 <span
                   key={service.id}
-                  className={`relative cursor-pointer transition-all duration-200 hover:text-violet-300 ${isActive ? "text-violet-400" : "text-gray-300"}`}
+                  className={`relative cursor-pointer transition-all duration-200 hover:text-violet-600 dark:hover:text-violet-300 ${isActive ? "text-violet-600 dark:text-violet-400" : "text-gray-700 dark:text-gray-300"}`}
                   onClick={() => handleServiceClick(service)}
                 >
                   {service.title}
                   <span
-                    className={`absolute -bottom-1 left-0 w-full h-[2px] rounded-full transition-all duration-300 ${isActive ? "bg-gradient-to-r from-violet-400 to-fuchsia-400" : "opacity-0 group-hover:opacity-100"}`}
+                    className={`absolute -bottom-1 left-0 w-full h-[2px] rounded-full transition-all duration-300 ${isActive ? "bg-gradient-to-r from-violet-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400" : "opacity-0 group-hover:opacity-100"}`}
                   />
                 </span>
               );
             })}
           </div>
 
-          {/* Profile Info - hidden on mobile to avoid duplicate with drawer */}
-          <div className="hidden md:block">
+          {/* Theme Toggle & Profile Info - hidden on mobile to avoid duplicate with drawer */}
+          <div className="hidden md:flex items-center gap-4">
             <ProfileInfoCard />
+            <ThemeToggle />
           </div>
         </div>
         {/* Mobile Menu Drawer */}
@@ -200,6 +202,13 @@ const Navbar = () => {
                 </button>
               </div>
               {/* Divider below profile section */}
+              <div className="w-full h-px bg-white/10 mb-3" />
+              
+              {/* Theme Toggle in Mobile Menu */}
+              <div className="flex items-center justify-between px-4 py-3 mb-2">
+                <span className="text-sm font-medium text-gray-300">Theme</span>
+                <ThemeToggle />
+              </div>
               <div className="w-full h-px bg-white/10 mb-3" />
               <ul className="flex flex-col gap-1">
                 {SERVICES.map((service) => {

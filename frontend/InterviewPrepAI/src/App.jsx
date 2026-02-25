@@ -4,6 +4,7 @@ import DsaSheet from "./components/SheetDetailsPage";
 import SheetList from "./components/SheetList";
 // ...existing code...
 import UserProvider from "./context/userContext";
+import ThemeProvider from "./context/themeContext";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
@@ -30,9 +31,10 @@ const ProtectedRoute = ({ children }) => {
 
 const App = () => {
   return (
-    <UserProvider>
-      <div>
-        <Router>
+    <ThemeProvider>
+      <UserProvider>
+        <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text-dark)] transition-colors duration-300">
+          <Router>
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
@@ -61,17 +63,18 @@ const App = () => {
             <Route path="/assessment" element={<SkillAssessment />} />
             <Route path="/compiler" element={<Compiler />} />
           </Routes>
-        </Router>
-        <Toaster
-          toastOptions={{
-            className: "",
-            style: {
-              fontSize: "13px",
-            },
-          }}
-        />
-      </div>
-    </UserProvider>
+          </Router>
+          <Toaster
+            toastOptions={{
+              className: "",
+              style: {
+                fontSize: "13px",
+              },
+            }}
+          />
+        </div>
+      </UserProvider>
+    </ThemeProvider>
   );
 };
 

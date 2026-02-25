@@ -127,46 +127,46 @@ export default function AIHelper() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-gray-100 flex flex-col">
+    <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-300">
       {user && (
-        <div className="h-16 sticky top-0 z-30 bg-gradient-to-b from-gray-900 to-gray-800 border-b border-violet-500/30 shadow-sm">
+        <div className="h-16 sticky top-0 z-30 bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 border-b border-gray-200 dark:border-violet-500/30 shadow-sm transition-colors duration-300">
           <Navbar />
         </div>
       )}
       <div className="container mx-auto px-4 pt-6 pb-20 relative z-10">
-        <div className="mx-auto w-full max-w-6xl bg-white/5 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+        <div className="mx-auto w-full max-w-6xl bg-purple-50 dark:bg-white/5 rounded-2xl shadow-lg dark:shadow-2xl overflow-hidden flex flex-col transition-colors duration-300">
           {/* Header */}
-          <header className="flex items-center justify-between p-4 border-b border-white/5">
+          <header className="flex items-center justify-between p-4 border-b border-purple-100 dark:border-white/5 transition-colors duration-300">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-xl font-bold">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-xl font-bold text-white">
                 A
               </div>
               <div>
-                <h1 className="text-lg font-semibold">AI Assistant</h1>
+                <h1 className="text-lg font-semibold text-gray-900 dark:text-white transition-colors duration-300">AI Assistant</h1>
               </div>
             </div>
             <button
               onClick={clearChat}
-              className="text-sm px-3 py-1 rounded-md bg-white/6 hover:bg-white/10"
+              className="text-sm px-3 py-1 rounded-md bg-purple-100 dark:bg-white/6 hover:bg-purple-200 dark:hover:bg-white/10 text-gray-900 dark:text-white transition-colors duration-300"
             >
               New chat
             </button>
           </header>
 
           {/* Messages */}
-          <main className="p-4 h-[60vh] overflow-y-auto">
+          <main className="p-4 h-[60vh] overflow-y-auto bg-white dark:bg-transparent transition-colors duration-300">
             <ol className="space-y-4">
               {messages.map((m) => (
                 <li key={m.id} className="flex gap-3 items-start">
                   <div
                     className={`flex-none w-9 h-9 rounded-md flex items-center justify-center text-sm font-medium ${
-                      m.role === "user" ? "bg-blue-600" : "bg-gray-700"
-                    }`}
+                      m.role === "user" ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-700"
+                    } text-white transition-colors duration-300`}
                   >
                     {m.role === "user" ? "U" : "A"}
                   </div>
-                  <div className="prose prose-invert max-w-none break-words bg-white/3 p-3 rounded-lg flex-1">
-                    <div className="text-sm text-white/80 whitespace-pre-wrap">
+                  <div className="prose prose-invert max-w-none break-words bg-purple-50 dark:bg-white/3 p-3 rounded-lg flex-1 transition-colors duration-300">
+                    <div className="text-sm text-gray-900 dark:text-white/80 whitespace-pre-wrap transition-colors duration-300">
                       {m.text}
                     </div>
                   </div>
@@ -179,7 +179,7 @@ export default function AIHelper() {
           {/* Input */}
           <form
             onSubmit={handleSend}
-            className="p-4 border-t border-white/5 bg-gradient-to-t from-black/20 to-transparent"
+            className="p-4 border-t border-purple-100 dark:border-white/5 bg-gradient-to-t from-purple-100/50 dark:from-black/20 to-transparent transition-colors duration-300"
           >
             <div className="flex gap-3 items-end">
               <textarea
@@ -187,17 +187,17 @@ export default function AIHelper() {
                 onChange={(e) => setInput(e.target.value)}
                 rows={2}
                 placeholder="Ask a question... (Press Ctrl+Enter to send)"
-                className="flex-1 resize-none rounded-md bg-white/5 focus:bg-white/6 p-3 text-white placeholder:text-white/40"
+                className="flex-1 resize-none rounded-md bg-white dark:bg-white/5 focus:bg-gray-50 dark:focus:bg-white/6 p-3 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-white/40 border border-gray-200 dark:border-transparent transition-colors duration-300"
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 py-2 rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 disabled:opacity-60"
+                className="px-4 py-2 rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 disabled:opacity-60 text-white transition"
               >
                 {loading ? "Loading..." : "Send"}
               </button>
             </div>
-            {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
+            {error && <p className="mt-2 text-sm text-red-600 dark:text-red-400 transition-colors duration-300">{error}</p>}
           </form>
         </div>
       </div>

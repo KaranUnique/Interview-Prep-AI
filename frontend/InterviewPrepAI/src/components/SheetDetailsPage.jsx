@@ -85,7 +85,7 @@ function SheetDetail() {
     return (
       <>
         <Navbar />
-        <p className="p-4 text-white bg-gray-900 min-h-screen">Loading...</p>
+        <p className="p-4 text-gray-900 dark:text-white bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300">Loading...</p>
       </>
     );
 
@@ -93,7 +93,7 @@ function SheetDetail() {
     return (
       <>
         <Navbar />
-        <p className="p-4 text-white bg-gray-900 min-h-screen">
+        <p className="p-4 text-gray-900 dark:text-white bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300">
           Sheet not found
         </p>
       </>
@@ -102,20 +102,20 @@ function SheetDetail() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white px-6 md:px-10 py-8">
-        <h1 className="text-2xl font-bold mb-2">{sheet.title}</h1>
+      <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-white px-6 md:px-10 py-8 transition-colors duration-300">
+        <h1 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white transition-colors duration-300">{sheet.title}</h1>
         
-        <p className="text-gray-300 mb-6">{sheet.description}</p>
+        <p className="text-gray-700 dark:text-gray-300 mb-6 transition-colors duration-300">{sheet.description}</p>
 
-        <div className="flex gap-6 text-gray-300 font-medium mb-6 text-sm">
+        <div className="flex gap-6 text-gray-700 dark:text-gray-300 font-medium mb-6 text-sm transition-colors duration-300">
           <p>
-            <strong className="text-white">{sheet.questions}</strong> Questions
+            <strong className="text-gray-900 dark:text-white">{sheet.questions}</strong> Questions
           </p>
           <p>
-            <strong className="text-white">{sheet.followers}</strong> Followers
+            <strong className="text-gray-900 dark:text-white">{sheet.followers}</strong> Followers
           </p>
           <p>
-            <strong className="text-white">{completedCount}</strong> /{" "}
+            <strong className="text-gray-900 dark:text-white">{completedCount}</strong> /{" "}
             {totalSubtopics} Completed
           </p>
         </div>
@@ -138,19 +138,18 @@ function SheetDetail() {
           )}
         </div>
 
-        {/* Sections */}
         <div className="flex flex-col gap-6">
           {sheet.sections?.map((section, sectionIdx) => (
             <div
               key={sectionIdx}
-              className="bg-gray-800 rounded-lg shadow-lg border-l-4 border-purple-500 p-4"
+              className="bg-purple-50 dark:bg-gray-800 rounded-lg shadow-lg border-l-4 border-purple-500 p-4 transition-colors duration-300"
             >
-              <div className="font-bold text-white mb-3 text-lg">
+              <div className="font-bold text-gray-900 dark:text-white mb-3 text-lg transition-colors duration-300">
                 {section.title}
               </div>
               {section.topics.map((topic, topicIdx) => (
                 <div key={topicIdx} className="mb-4">
-                  <div className="font-semibold text-gray-200 text-sm mb-2">
+                  <div className="font-semibold text-gray-800 dark:text-gray-200 text-sm mb-2 transition-colors duration-300">
                     {topic.title}
                   </div>
                   <ul className="flex flex-col gap-2">
@@ -160,14 +159,13 @@ function SheetDetail() {
                       return (
                         <li
                           key={subIdx}
-                          className="flex items-center bg-gray-700 rounded-md px-3 py-2 text-sm shadow-sm"
+                          className="flex items-center bg-white dark:bg-gray-700 rounded-md px-3 py-2 text-sm shadow-sm transition-colors duration-300"
                         >
-                          {/* Progress toggle */}
                           <span
-                            className={`w-4 h-4 rounded-full border-2 mr-2 cursor-pointer ${
+                            className={`w-4 h-4 rounded-full border-2 mr-2 cursor-pointer transition-colors duration-300 ${
                               completed
-                                ? "bg-violet-900 border-violet-300"
-                                : "border-gray-400 bg-gray-800"
+                                ? "bg-violet-200 dark:bg-violet-900 border-violet-500 dark:border-violet-300"
+                                : "border-gray-400 bg-gray-100 dark:bg-gray-800"
                             } ${
                               !followed && "opacity-50 cursor-not-allowed"
                             }`}
@@ -179,12 +177,10 @@ function SheetDetail() {
                             }
                           ></span>
 
-                          {/* Title */}
-                          <span className="flex-1 text-gray-100 truncate">
+                          <span className="flex-1 text-gray-900 dark:text-gray-100 truncate transition-colors duration-300">
                             {sub.title}
                           </span>
 
-                          {/* Links */}
                           <span className="flex gap-2 mr-2">
                             {["gfg", "leetcode", "youtube"].map((platform) =>
                               sub.links?.[platform] ? (
@@ -225,9 +221,8 @@ function SheetDetail() {
                             )}
                           </span>
 
-                          {/* Difficulty */}
                           <span
-                            className="px-2 py-0.5 rounded text-xs bg-purple-600 font-semibold"
+                            className="px-2 py-0.5 rounded text-xs bg-purple-600 font-semibold text-white"
                           >
                             {sub.difficulty}
                           </span>

@@ -10,6 +10,7 @@ import SignUp from "./pages/Auth/SignUp";
 import { UserContext } from "./context/userContext";
 import { motion } from "framer-motion";
 import ServicesMarquee from "./components/ServicesMarquee";
+import ThemeToggle from "./components/ThemeToggle";
 
 const LandingPage = () => {
   const { user } = useContext(UserContext);
@@ -29,22 +30,22 @@ const LandingPage = () => {
 
   return (
     <>
-      <div className="w-full bg-gradient-to-r from-cyan-200 via-blue-300 to-violet-400 relative overflow-hidden">
+      <div className="w-full bg-gradient-to-r from-cyan-200 via-blue-300 to-violet-400 dark:from-gray-800 dark:via-gray-900 dark:to-black relative overflow-hidden transition-colors duration-300">
         {/* blurred background */}
-        <div className="w-72 h-72 md:w-[500px] md:h-[500px] bg-blue-200/20 blur-[65px] absolute top-0 left-0" />
+        <div className="w-72 h-72 md:w-[500px] md:h-[500px] bg-blue-200/20 dark:bg-purple-500/10 blur-[65px] absolute top-0 left-0 transition-colors duration-300" />
 
         <div className="container mx-auto px-4 pt-6 pb-20 relative z-10">
           {/* header */}
           <header className="flex justify-between items-center mb-12">
             {/* Logo / Brand */}
-            <div className="text-xl md:text-2xl text-black font-bold">
+            <div className="text-xl md:text-2xl text-black dark:text-white font-bold transition-colors duration-300">
               Interview Prep AI
             </div>
 
             {/* Navigation Links for Services */}
-            <nav className="hidden md:flex gap-7 text-md font-medium text-gray-900">
+            <nav className="hidden md:flex gap-7 text-md font-medium text-gray-900 dark:text-gray-100 transition-colors duration-300">
               <span
-                className="hover:text-blue-600 transition-colors cursor-pointer"
+                className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
                 onClick={() => {
                   if (!user) {
                     setOpenAuthModal(true);
@@ -57,7 +58,7 @@ const LandingPage = () => {
                 AI-Assistence
               </span>
               <span
-                className="hover:text-blue-600 transition-colors cursor-pointer"
+                className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
                 onClick={() => {
                   if (!user) {
                     setOpenAuthModal(true);
@@ -70,7 +71,7 @@ const LandingPage = () => {
                 Cognitive Skill Builder
               </span>
               <span
-                className="hover:text-blue-600 transition-colors cursor-pointer"
+                className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
                 onClick={() => {
                   if (!user) {
                     setOpenAuthModal(true);
@@ -83,7 +84,7 @@ const LandingPage = () => {
                 Role-Specific Preparation
               </span>
               <span
-                className="hover:text-blue-600 transition-colors cursor-pointer"
+                className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
                 onClick={() => {
                   if (!user) {
                     setOpenAuthModal(true);
@@ -96,7 +97,7 @@ const LandingPage = () => {
                 DSA Master Sheets
               </span>
               <span
-                className="hover:text-blue-600 transition-colors cursor-pointer"
+                className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
                 onClick={() => {
                   if (!user) {
                     setOpenAuthModal(true);
@@ -110,17 +111,19 @@ const LandingPage = () => {
               </span>
             </nav>
 
-            {/* Auth/Profile */}
-            {user ? (
-              <ProfileInfoCard />
-            ) : (
-              <button
-                className="bg-blue-200 text-sm font-semibold text-blue-600 px-5 md:px-7 py-2.5 rounded-full border border-white transition-colors"
-                onClick={() => setOpenAuthModal(true)}
-              >
-                Login / Sign Up
-              </button>
-            )}
+            <div className="flex items-center gap-3">
+              {user ? (
+                <ProfileInfoCard />
+              ) : (
+                <button
+                  className="bg-blue-200 dark:bg-blue-900/30 text-sm font-semibold text-blue-600 dark:text-blue-400 px-5 md:px-7 py-2.5 rounded-full border border-white dark:border-gray-700 transition-colors"
+                  onClick={() => setOpenAuthModal(true)}
+                >
+                  Login / Sign Up
+                </button>
+              )}
+              <ThemeToggle />
+            </div>
           </header>
 
           {/* hero content */}
@@ -128,11 +131,11 @@ const LandingPage = () => {
             {/* left */}
             <div className="w-full md:w-1/2">
               <div className="flex items-center justify-start mb-4">
-                <div className="flex items-center gap-2 text-xs sm:text-sm text-blue-600 font-semibold bg-blue-100 px-3 py-1 rounded-full border border-blue-300">
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-semibold bg-blue-100 dark:bg-blue-900/30 px-3 py-1 rounded-full border border-blue-300 dark:border-blue-700 transition-colors duration-300">
                   <LuSparkles /> AI Powered
                 </div>
               </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl text-black font-medium mb-6 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl text-black dark:text-white font-medium mb-6 leading-tight transition-colors duration-300">
                 Crack Every Interview with <br />
                 <span
                   className="text-transparent bg-clip-text bg-[radial-gradient(circle_at_top_left,rgba(147,51,234,0.7)_0%,rgba(99,102,241,0.85)_40%,rgba(180,70,229,1)_100%)]
@@ -142,7 +145,7 @@ const LandingPage = () => {
                 </span>{" "}
                 Learning
               </h1>
-              <p className="text-base md:text-lg text-gray-900 mb-6">
+              <p className="text-base md:text-lg text-gray-900 dark:text-gray-100 mb-6 transition-colors duration-300">
                 Get role-specific questions, expand answers when you need them,
                 dive deeper into concepts, and organize everything your way.
                 From preparation to mastery—your ultimate interview toolkit is
@@ -153,20 +156,20 @@ const LandingPage = () => {
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <div className="flex flex-row gap-3">
                   <button
-                    className="bg-violet-500 text-sm font-semibold text-white px-6 md:px-7 py-2.5 rounded-full hover:bg-violet-600 transition-colors"
+                    className="bg-violet-500 dark:bg-violet-600 text-sm font-semibold text-white px-6 md:px-7 py-2.5 rounded-full hover:bg-violet-600 dark:hover:bg-violet-700 transition-colors"
                     onClick={handleCTA}
                   >
                     Get Started
                   </button>
                   <button
-                    className="flex items-center justify-center gap-2 text-sm font-semibold text-blue-600 bg-blue-200 px-6 md:px-7 py-2.5 rounded-full hover:bg-blue-300 transition-colors"
+                    className="flex items-center justify-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 bg-blue-200 dark:bg-blue-900/30 px-6 md:px-7 py-2.5 rounded-full hover:bg-blue-300 dark:hover:bg-blue-900/50 transition-colors"
                     onClick={() => navigate("/ai-helper")}
                   >
                     <LuSparkles /> AI Assistance
                   </button>
                 </div>
 
-                <p className="text-violet-600 font-semibold text-sm sm:ml-3 text-center sm:text-left">
+                <p className="text-violet-600 dark:text-violet-400 font-semibold text-sm sm:ml-3 text-center sm:text-left transition-colors duration-300">
                   Try our AI Assistance instantly—no signup required!
                 </p>
               </div>
@@ -188,7 +191,7 @@ const LandingPage = () => {
         <div className="w-full">
           <div className="container mx-auto px-4 pt-10 pb-20">
             <section>
-              <h2 className="text-2xl sm:text-4xl font-medium text-center mb-12">
+              <h2 className="text-2xl sm:text-4xl font-medium text-center mb-12 text-black dark:text-white transition-colors duration-300">
                 Features That Make You Shine
               </h2>
 
@@ -198,12 +201,12 @@ const LandingPage = () => {
                   {APP_FEATURES.slice(0, 3).map((feature) => (
                     <div
                       key={feature.id}
-                      className="bg-sky-100 p-6 rounded-xl shadow-xs hover:shadow-lg shadow-blue-100 transition border border-blue-100"
+                      className="bg-sky-100 dark:bg-gray-800 p-6 rounded-xl shadow-xs hover:shadow-lg shadow-blue-100 dark:shadow-gray-900 transition border border-blue-100 dark:border-gray-700"
                     >
-                      <h3 className="text-base font-semibold mb-3">
+                      <h3 className="text-base font-semibold mb-3 text-gray-900 dark:text-white transition-colors duration-300">
                         {feature.title}
                       </h3>
-                      <p className="text-gray-600 text-sm md:text-base">
+                      <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base transition-colors duration-300">
                         {feature.description}
                       </p>
                     </div>
@@ -215,12 +218,12 @@ const LandingPage = () => {
                   {APP_FEATURES.slice(3).map((feature) => (
                     <div
                       key={feature.id}
-                      className="bg-sky-100 p-6 rounded-xl shadow-xs hover:shadow-lg shadow-blue-100 transition border border-blue-100"
+                      className="bg-sky-100 dark:bg-gray-800 p-6 rounded-xl shadow-xs hover:shadow-lg shadow-blue-100 dark:shadow-gray-900 transition border border-blue-100 dark:border-gray-700"
                     >
-                      <h3 className="text-base font-semibold mb-3">
+                      <h3 className="text-base font-semibold mb-3 text-gray-900 dark:text-white transition-colors duration-300">
                         {feature.title}
                       </h3>
-                      <p className="text-gray-600 text-sm md:text-base">
+                      <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base transition-colors duration-300">
                         {feature.description}
                       </p>
                     </div>
@@ -233,7 +236,7 @@ const LandingPage = () => {
       </div>
 
       {/* footer */}
-      <div className="text-xs sm:text-sm bg-purple-50 text-secondary text-center p-2 ">
+      <div className="text-xs sm:text-sm bg-purple-50 dark:bg-gray-900 text-secondary dark:text-gray-400 text-center p-2 transition-colors duration-300">
         All CopyRights Reserved @
       </div>
 

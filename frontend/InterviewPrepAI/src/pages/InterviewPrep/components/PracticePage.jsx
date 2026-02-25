@@ -50,15 +50,14 @@ const PracticePage = () => {
   };
 
   return (
-    <>
-      <DashboardLayout />
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-gray-100 flex flex-col">
+    <DashboardLayout>
+      <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-300">
         <main className="flex-1 container mx-auto px-4 py-10">
-          <div className="rounded-xl shadow p-6 text-center mb-8">
-            <h2 className="text-3xl font-semibold mb-4 text-white">
+          <div className="rounded-xl shadow-sm bg-purple-50 dark:bg-transparent p-6 text-center mb-8 transition-colors duration-300">
+            <h2 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white transition-colors duration-300">
               Practice Cognitive Skills
             </h2>
-            <p className="text-white/70 mb-6">
+            <p className="text-gray-700 dark:text-white/70 mb-6 transition-colors duration-300">
               Sharpen your logical reasoning, quantitative, and verbal skills
               with curated aptitude tests and exercises.
             </p>
@@ -76,8 +75,8 @@ const PracticePage = () => {
 
           {/* Professional prompt before questions */}
           {questions.length === 0 && !loading && (
-            <div className="text-center text-white text-base py-8">
-              <span className="inline-block bg-violet-100 text-gray-700 px-4 py-2 rounded font-medium shadow">
+            <div className="text-center text-gray-700 dark:text-white text-base py-8 transition-colors duration-300">
+              <span className="inline-block bg-violet-100 dark:bg-violet-100 text-gray-700 px-4 py-2 rounded font-medium shadow">
                 Select a topic above to generate your first set of aptitude
                 questions.
               </span>
@@ -101,7 +100,7 @@ const PracticePage = () => {
               {/* Load More */}
               <div className="flex justify-center mt-6">
                 <button
-                  className="bg-violet-600 text-white px-6 py-2 rounded-full font-semibold shadow hover:bg-violet-700 transition"
+                  className="bg-violet-600 hover:bg-violet-700 text-white px-6 py-2 rounded-full font-semibold shadow transition"
                   disabled={loading || !selectedTopic}
                   onClick={async () => {
                     setLoading(true);
@@ -125,7 +124,7 @@ const PracticePage = () => {
           )}
         </main>
       </div>
-    </>
+    </DashboardLayout>
   );
 };
 

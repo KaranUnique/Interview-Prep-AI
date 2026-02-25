@@ -21,7 +21,7 @@ const ProfileinfoCard = () => {
         <img
           src={user.profileImageUrl}
           alt="Profile"
-          className="w-10 h-10 rounded-full border border-gray-300 shadow-sm"
+          className="w-10 h-10 rounded-full border border-gray-300 dark:border-gray-600 shadow-sm transition-colors duration-300"
         />
       ) : (
         <div className="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-white 
@@ -32,12 +32,12 @@ const ProfileinfoCard = () => {
 
       {/* User Info */}
       <div className="ml-3">
-        <div className="text-sm font-medium text-white">
+        <div className="text-sm font-medium text-gray-900 dark:text-white transition-colors duration-300">
           {user.name || user.email || ""}
         </div>
         <button
           onClick={handleLogout}
-          className="text-sm text-white font-medium hover:underline transition-colors"
+          className="text-sm text-gray-700 dark:text-white font-medium hover:underline transition-colors duration-300"
         >
           Logout
         </button>
