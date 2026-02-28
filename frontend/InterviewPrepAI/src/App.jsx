@@ -11,6 +11,7 @@ import { Toaster } from "react-hot-toast";
 
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
+import VerifyEmail from "./pages/Auth/VerifyEmail";
 import LandingPage from "./LandingPage";
 import Dashboard from "./pages/Home/Dashboard";
 import InterviewPrep from "./pages/InterviewPrep/InterviewPrep";
@@ -35,34 +36,35 @@ const App = () => {
       <UserProvider>
         <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text-dark)] transition-colors duration-300">
           <Router>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
-            {/* <Route path='/signUp' element={<SignUp/>}/> */}
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route
-              path="/interview-prep/:sessionId"
-              element={<InterviewPrep />}
-            />
-            <Route path="/ai-helper" element={<AIHelper />} />
-            <Route path="/practice" element={
-              <ProtectedRoute>
-                <PracticePage />
-              </ProtectedRoute>
-            } />
-            <Route path="/aptitude" element={
-              <ProtectedRoute>
-                <PracticePage />
-              </ProtectedRoute>
-            } />
-            <Route path="/role-prep" element={<Dashboard />} />
-            <Route path="/ai-insight" element={<AIHelper />} />
-            <Route path="/ai-assistance" element={<AIHelper />} />
-            <Route path="/coding-sheets" element={<SheetList type="all" />} />
-            <Route path="/sheet/:id" element={<DsaSheet />} />
-            <Route path="/assessment" element={<SkillAssessment />} />
-            <Route path="/compiler" element={<Compiler />} />
-          </Routes>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<Login />} />
+              {/* <Route path='/signUp' element={<SignUp/>}/> */}
+              <Route path="/verify-email/:token" element={<VerifyEmail />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route
+                path="/interview-prep/:sessionId"
+                element={<InterviewPrep />}
+              />
+              <Route path="/ai-helper" element={<AIHelper />} />
+              <Route path="/practice" element={
+                <ProtectedRoute>
+                  <PracticePage />
+                </ProtectedRoute>
+              } />
+              <Route path="/aptitude" element={
+                <ProtectedRoute>
+                  <PracticePage />
+                </ProtectedRoute>
+              } />
+              <Route path="/role-prep" element={<Dashboard />} />
+              <Route path="/ai-insight" element={<AIHelper />} />
+              <Route path="/ai-assistance" element={<AIHelper />} />
+              <Route path="/coding-sheets" element={<SheetList type="all" />} />
+              <Route path="/sheet/:id" element={<DsaSheet />} />
+              <Route path="/assessment" element={<SkillAssessment />} />
+              <Route path="/compiler" element={<Compiler />} />
+            </Routes>
           </Router>
           <Toaster
             toastOptions={{

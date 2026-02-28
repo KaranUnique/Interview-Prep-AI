@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerUser, loginUser, getUserProfile } = require("../controllers/authController");
+const { registerUser, loginUser, getUserProfile, verifyEmail } = require("../controllers/authController");
 const { protect } = require("../middlewares/authMiddleware");
 const upload = require("../middlewares/uploadMiddleware");
 const router = express.Router();
@@ -9,7 +9,7 @@ const { authLimiter } = require("../middlewares/rateLimiter");
 router.post("/register", authLimiter, registerUser);
 router.post("/login", authLimiter, loginUser);
 router.get("/profile", protect, getUserProfile);
-
+router.get("/verify-email/:token", verifyEmail);
 
 
 router.post("/upload-image", upload.single("image"), (req, res) => {

@@ -51,4 +51,12 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+const requireVerification = (req, res, next) => {
+  if (req.user && req.user.isVerified) {
+    next();
+  } else {
+    res.status(403).json({ message: "Access denied. Please verify your email first." });
+  }
+};
+
+module.exports = { protect, requireVerification };
