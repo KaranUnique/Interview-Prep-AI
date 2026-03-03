@@ -1,30 +1,48 @@
 import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { modalVariants, backdropVariants } from "../../utils/animations";
 
 const Modal = ({ children, isOpen, onClose, title, hideHeader }) => {
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/40 ">
-      <div className="relative flex flex-col bg-white shadow-lg rounded-lg lg:w-[30vw] w-[90vw] max-w-md p-6">
-        {!hideHeader && (
-          <div className="flex items-center justify-between mb-4 border-b border-gray-200 pb-2">
-            <h3 className="text-lg font-medium text-gray-900">{title}</h3>
-          </div>
-        )}
-
-        {/* close button */}
-        <button
-          type="button"
-          className="text-gray-400 hover:text-gray-700 absolute top-3 right-3"
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 z-50 flex justify-center items-center bg-black/40"
+          variants={backdropVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
           onClick={onClose}
         >
-          ✕
-        </button>
+          <motion.div
+            className="relative flex flex-col bg-white shadow-lg rounded-lg lg:w-[30vw] w-[90vw] max-w-md p-6"
+            variants={modalVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {!hideHeader && (
+              <div className="flex items-center justify-between mb-4 border-b border-gray-200 pb-2">
+                <h3 className="text-lg font-medium text-gray-900">{title}</h3>
+              </div>
+            )}
 
-        {/* modal content */}
-        <div className="w-full">{children}</div>
-      </div>
-    </div>
+            {/* close button */}
+            <button
+              type="button"
+              className="text-gray-400 hover:text-gray-700 absolute top-3 right-3 transition-colors duration-200"
+              onClick={onClose}
+            >
+              ✕
+            </button>
+
+            {/* modal content */}
+            <div className="w-full">{children}</div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
