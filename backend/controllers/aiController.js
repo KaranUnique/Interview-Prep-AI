@@ -1,5 +1,8 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const { conceptExplainPrompt, questionAnswerPrompt } = require("../utils/prompts");
+const {
+  conceptExplainPrompt,
+  questionAnswerPrompt,
+} = require("../utils/prompts");
 
 // Initialize Gemini with API key from .env
 const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -16,37 +19,44 @@ const generateInterviewQuestions = async (req, res) => {
     }
 
     // Build prompt
-    const prompt = questionAnswerPrompt({ role, experience, topicsToFocus, numberOfQuestions });
+    const prompt = questionAnswerPrompt({
+      role,
+      experience,
+      topicsToFocus,
+      numberOfQuestions,
+    });
 
     // Use stable Gemini model
     const candidateModels = [
       process.env.GEMINI_MODEL,
-        'gemini-2.5-flash-preview-09-2025',
-        'gemini-2.5-pro-preview-05-06'
+      "models/gemini-2.5-flash",
+      "models/gemini-flash-latest",
+      "models/gemini-2.0-flash",
     ].filter(Boolean);
-    let lastErr = null; let result = null; let usedModel = null;
+    let lastErr = null;
+    let result = null;
+    let usedModel = null;
     for (const m of candidateModels) {
       try {
         console.log(`Trying model: ${m}`);
         const model = ai.getGenerativeModel({ model: m });
         result = await model.generateContent([prompt]);
-        usedModel = m; 
+        usedModel = m;
         console.log(`Successfully used model: ${m}`);
         break;
-      } catch (e) { 
+      } catch (e) {
         console.error(`Model ${m} failed:`, e.message);
-        lastErr = e; 
-        continue; 
+        lastErr = e;
+        continue;
       }
     }
-    if (!result) throw lastErr || new Error('All Gemini models failed');
-
+    if (!result) throw lastErr || new Error("All Gemini models failed");
 
     const rawText = await result.response.text();
     // Robustly clean: remove all leading/trailing code block markers (```json, ```), even if repeated, and trim
     let cleanedText = rawText
       .replace(/^(\s*```json\s*|\s*```\s*)+/i, "") // remove all leading ```json or ```
-      .replace(/(\s*```\s*)+$/i, "")                // remove all trailing ```
+      .replace(/(\s*```\s*)+$/i, "") // remove all trailing ```
       .trim();
 
     try {
@@ -61,7 +71,7 @@ const generateInterviewQuestions = async (req, res) => {
       console.error("Gemini returned invalid JSON:", cleanedText); // Log the cleaned text
       res.status(500).json({
         message: "Gemini returned invalid JSON",
-        raw: rawText
+        raw: rawText,
       });
     }
   } catch (error) {
@@ -77,8 +87,6 @@ const generateInterviewQuestions = async (req, res) => {
 // @route   POST /api/ai/generate-explanation
 // @access  Private
 const generateConceptExplanation = async (req, res) => {
-
-
   try {
     const { question } = req.body;
     if (!question) {
@@ -89,25 +97,28 @@ const generateConceptExplanation = async (req, res) => {
 
     const candidateModels = [
       process.env.GEMINI_MODEL,
-      'gemini-2.5-flash-preview-09-2025',
-      'gemini-2.5-pro-preview-05-06'
+      "models/gemini-2.5-flash",
+      "models/gemini-flash-latest",
+      "models/gemini-2.0-flash",
     ].filter(Boolean);
-    let lastErr = null; let result = null; let usedModel = null;
+    let lastErr = null;
+    let result = null;
+    let usedModel = null;
     for (const m of candidateModels) {
       try {
         console.log(`Trying model: ${m}`);
         const model = ai.getGenerativeModel({ model: m });
         result = await model.generateContent([prompt]);
-        usedModel = m; 
+        usedModel = m;
         console.log(`Successfully used model: ${m}`);
         break;
-      } catch (e) { 
+      } catch (e) {
         console.error(`Model ${m} failed:`, e.message);
-        lastErr = e; 
-        continue; 
+        lastErr = e;
+        continue;
       }
     }
-    if (!result) throw lastErr || new Error('All Gemini models failed');
+    if (!result) throw lastErr || new Error("All Gemini models failed");
 
     const rawText = await result.response.text();
     // Clean: remove all leading/trailing code block markers (```json, ```), even if repeated, and trim
@@ -119,11 +130,11 @@ const generateConceptExplanation = async (req, res) => {
 
     try {
       const data = JSON.parse(cleanedText);
-  res.status(200).json({ model: usedModel, ...data });
+      res.status(200).json({ model: usedModel, ...data });
     } catch (err) {
       res.status(500).json({
         message: "Gemini returned invalid JSON",
-        raw: rawText
+        raw: rawText,
       });
     }
   } catch (error) {

@@ -8,6 +8,8 @@ import ThemeProvider from "./context/themeContext";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { AnimatePresence } from "framer-motion";
+import PageTransition from "./components/animations/PageTransition";
 
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
@@ -36,35 +38,36 @@ const App = () => {
       <UserProvider>
         <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text-dark)] transition-colors duration-300">
           <Router>
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/login" element={<Login />} />
-              {/* <Route path='/signUp' element={<SignUp/>}/> */}
-              <Route path="/verify-email/:token" element={<VerifyEmail />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route
-                path="/interview-prep/:sessionId"
-                element={<InterviewPrep />}
-              />
-              <Route path="/ai-helper" element={<AIHelper />} />
-              <Route path="/practice" element={
-                <ProtectedRoute>
-                  <PracticePage />
-                </ProtectedRoute>
-              } />
-              <Route path="/aptitude" element={
-                <ProtectedRoute>
-                  <PracticePage />
-                </ProtectedRoute>
-              } />
-              <Route path="/role-prep" element={<Dashboard />} />
-              <Route path="/ai-insight" element={<AIHelper />} />
-              <Route path="/ai-assistance" element={<AIHelper />} />
-              <Route path="/coding-sheets" element={<SheetList type="all" />} />
-              <Route path="/sheet/:id" element={<DsaSheet />} />
-              <Route path="/assessment" element={<SkillAssessment />} />
-              <Route path="/compiler" element={<Compiler />} />
-            </Routes>
+            <AnimatePresence mode="wait">
+              <Routes>
+                <Route path="/" element={<PageTransition><LandingPage /></PageTransition>} />
+                <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
+                {/* <Route path='/signUp' element={<SignUp/>}/> */}
+                <Route path="/dashboard" element={<PageTransition><Dashboard /></PageTransition>} />
+                <Route
+                  path="/interview-prep/:sessionId"
+                  element={<PageTransition><InterviewPrep /></PageTransition>}
+                />
+                <Route path="/ai-helper" element={<PageTransition><AIHelper /></PageTransition>} />
+                <Route path="/practice" element={
+                  <ProtectedRoute>
+                    <PageTransition><PracticePage /></PageTransition>
+                  </ProtectedRoute>
+                } />
+                <Route path="/aptitude" element={
+                  <ProtectedRoute>
+                    <PageTransition><PracticePage /></PageTransition>
+                  </ProtectedRoute>
+                } />
+                <Route path="/role-prep" element={<PageTransition><Dashboard /></PageTransition>} />
+                <Route path="/ai-insight" element={<PageTransition><AIHelper /></PageTransition>} />
+                <Route path="/ai-assistance" element={<PageTransition><AIHelper /></PageTransition>} />
+                <Route path="/coding-sheets" element={<PageTransition><SheetList type="all" /></PageTransition>} />
+                <Route path="/sheet/:id" element={<PageTransition><DsaSheet /></PageTransition>} />
+                <Route path="/assessment" element={<PageTransition><SkillAssessment /></PageTransition>} />
+                <Route path="/compiler" element={<PageTransition><Compiler /></PageTransition>} />
+              </Routes>
+            </AnimatePresence>
           </Router>
           <Toaster
             toastOptions={{

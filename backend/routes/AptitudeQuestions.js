@@ -1,10 +1,8 @@
-
 const express = require("express");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const router = express.Router();
 const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
 
 // GET /api/questions?topic=Probability
 router.get("/", async (req, res) => {
@@ -29,14 +27,15 @@ router.get("/", async (req, res) => {
     // Use working Gemini models with fallback
     const candidateModels = [
       process.env.GEMINI_MODEL,
-      'gemini-2.5-flash-preview-09-2025',
-      'gemini-2.5-pro-preview-05-06'
+      "models/gemini-2.5-flash",
+      "models/gemini-flash-latest",
+      "models/gemini-2.0-flash",
     ].filter(Boolean);
-    
+
     let lastErr = null;
     let result = null;
     let usedModel = null;
-    
+
     for (const m of candidateModels) {
       try {
         console.log(`[Aptitude] Trying model: ${m}`);
@@ -51,9 +50,9 @@ router.get("/", async (req, res) => {
         continue;
       }
     }
-    
-    if (!result) throw lastErr || new Error('All Gemini models failed');
-    
+
+    if (!result) throw lastErr || new Error("All Gemini models failed");
+
     const rawText = await result.response.text();
     let cleanedText = rawText
       .replace(/^\s*```json\s*/i, "")
@@ -66,12 +65,20 @@ router.get("/", async (req, res) => {
     } catch (err) {
       console.error("Gemini raw response:", rawText);
       console.error("Parse error:", err);
-      return res.status(500).json({ error: "Failed to parse Gemini response", details: err.message, raw: rawText });
+      return res
+        .status(500)
+        .json({
+          error: "Failed to parse Gemini response",
+          details: err.message,
+          raw: rawText,
+        });
     }
     res.json(questions);
   } catch (error) {
     console.error("Gemini API error:", error);
-    res.status(500).json({ error: "Failed to generate questions", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Failed to generate questions", details: error.message });
   }
 });
 module.exports = router;
