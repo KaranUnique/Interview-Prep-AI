@@ -9,6 +9,7 @@ import SummaryCard from "../../components/Cards/SummaryCard";
 import Modal from "../../components/Loader/Modal";
 import CreateSessionForm from "./CreateSessionForm";
 import DeleteAlertContent from "../../components/DeleteAlertContent";
+import { useTutorial } from "../../context/tutorialContext";
 
 import axiosInstance from "../../utils/axiosinstance";
 import { API_PATHS } from "../../utils/apiPaths";
@@ -19,6 +20,7 @@ const Dashboard = () => {
   const [sessions, setSessions] = useState([]);
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [openDeleteAlert, setOpenDeleteAlert] = useState({ open: false, data: null });
+  const { currentStep, isTutorialActive } = useTutorial();
 
   const fetchAllSessions = async () => {
     try {
@@ -82,9 +84,14 @@ const Dashboard = () => {
             </div>
           )}
 
-          {/* Add New Floating Button */}
+          {/* Add New Floating Button — tutorial-highlight when step "create-session" is active */}
           <button
-            className="fixed bottom-10 right-10 md:bottom-16 md:right-16 h-12 flex items-center gap-2 px-6 bg-purple-500 text-white rounded-full shadow-lg hover:shadow-2xl hover:bg-purple-600 transition"
+            id="create-session-btn"
+            className={`fixed bottom-10 right-10 md:bottom-16 md:right-16 h-12 flex items-center gap-2 px-6 bg-purple-500 text-white rounded-full shadow-lg hover:shadow-2xl hover:bg-purple-600 transition ${
+              isTutorialActive && currentStep?.highlight === "create-session"
+                ? "tutorial-highlight"
+                : ""
+            }`}
             onClick={() => setOpenCreateModal(true)}
           >
             <LuPlus className="text-xl" /> Add New

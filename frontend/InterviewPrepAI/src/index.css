@@ -126,6 +126,33 @@ html.dark {
 .input-box:focus-within {
   border-color: var(--color-accent-teal);
 }
+
+/* ─── Onboarding Tutorial ──────────────────────────────────────────────────── */
+@keyframes tutorialPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.7), 0 0 18px rgba(139, 92, 246, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(139, 92, 246, 0.25), 0 0 28px rgba(139, 92, 246, 0.2);
+  }
+}
+
+/* For rounded-full targets (e.g. the Add New button) */
+.tutorial-highlight {
+  position: relative;
+  z-index: 10;
+  border-radius: 9999px;
+  animation: tutorialPulse 1.6s ease-in-out infinite;
+}
+
+/* For rectangular targets (e.g. navbar links) */
+.tutorial-highlight-nav {
+  position: relative;
+  z-index: 10;
+  border-radius: 6px;
+  animation: tutorialPulse 1.6s ease-in-out infinite;
+}
+/* ─────────────────────────────────────────────────────────────────────────── */
 .btn-primary {
   width: 100%;
   display: flex;
