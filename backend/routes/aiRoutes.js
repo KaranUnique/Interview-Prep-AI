@@ -3,6 +3,8 @@ const router = express.Router();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { aiLimiter } = require('../middlewares/rateLimiter');
 const { protect, requireVerification } = require('../middlewares/authMiddleware');
+const { validateAiPrompt } = require('../middlewares/validateAiPrompt');
+const { sanitizeAiPrompt } = require('../middlewares/sanitizeAiPrompt');
 
 // Shared handler for text generation (used by multiple route aliases)
 async function generateHandler(req, res) {
@@ -64,9 +66,9 @@ async function generateHandler(req, res) {
 }
 
 // Primary route used by frontend
-router.post('/generate', protect, requireVerification, aiLimiter, generateHandler);
+router.post('/generate', aiLimiter, validateAiPrompt, sanitizeAiPrompt, generateHandler);
 // Alias under /ai for consistency if needed later (/api/ai/generate)
-router.post('/ai/generate', protect, requireVerification, aiLimiter, generateHandler);
+router.post('/ai/generate', aiLimiter, validateAiPrompt, sanitizeAiPrompt, generateHandler);
 
 // List available models
 router.get("/models", async (req, res) => {

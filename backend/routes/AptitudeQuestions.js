@@ -1,11 +1,13 @@
 const express = require("express");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { validateAiPrompt } = require("../middlewares/validateAiPrompt");
+const { sanitizeAiPrompt } = require("../middlewares/sanitizeAiPrompt");
 
 const router = express.Router();
 const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // GET /api/questions?topic=Probability
-router.get("/", async (req, res) => {
+router.get("/", validateAiPrompt, sanitizeAiPrompt, async (req, res) => {
   const { topic } = req.query;
   if (!topic) return res.status(400).json({ error: "Topic is required" });
 
@@ -51,7 +53,7 @@ router.get("/", async (req, res) => {
       }
     }
 
-    if (!result) throw lastErr || new Error("All Gemini models failed");
+    if (!result) throw lastErr || new Error('All Gemini models failed');
 
     const rawText = await result.response.text();
     let cleanedText = rawText
