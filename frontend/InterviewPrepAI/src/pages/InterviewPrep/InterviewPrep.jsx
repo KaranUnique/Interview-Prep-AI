@@ -13,6 +13,7 @@ import QuestionCard from "../../components/Cards/QuestionCard";
 import AIResponsePreview from "./components/AIResponsePreview";
 import SkeletonLoader from "../../components/Loader/SkeletonLoader";
 import Drawer from "../../components/Drawer";
+import LoadingModal from "../../components/Loader/LoadingModal";
 
 const InterviewPrep = () => {
   const { sessionId } = useParams();
@@ -57,6 +58,7 @@ const InterviewPrep = () => {
     } catch (error) {
       setExplanation(null);
       setErrorMsg("Failed to generate explanation, try again later.");
+      console.error("Error generating explanation:" , error);
     } finally {
       setIsLoading(false);
     }
@@ -78,6 +80,8 @@ const InterviewPrep = () => {
 
   // load more questions
   const uploadMoreQuestions = async () => {
+    if(isUpdateLoader) return;   // Prevent duplicate requests
+
     try {
       setIsUpdateLoader(true);
       const aiResponse = await axiosInstance.post(
@@ -101,10 +105,12 @@ const InterviewPrep = () => {
         fetchSessionDetailsById();
       }
     } catch (error) {
-      setErrorMsg(
+      const errorMsg =
         error.response?.data?.message ||
-          "Something went wrong. Please try again"
-      );
+        "Somthing went wrong . Please try again Later.";
+      setErrorMsg(errorMsg);
+      toast.error(errorMsg);
+      console.error("Error Loading more questions:" , error);
     } finally {
       setIsUpdateLoader(false);
     }
@@ -166,16 +172,21 @@ const InterviewPrep = () => {
                     sessionData?.questions?.length === index + 1 && (
                       <div className="flex justify-center mt-6">
                         <button
-                          className="flex items-center gap-2 text-sm sm:text-base text-white font-medium bg-gradient-to-r from-black to-gray-800 px-5 sm:px-6 py-2.5 rounded-full shadow hover:opacity-90 transition"
-                          disabled={isLoading || isUpdateLoader}
                           onClick={uploadMoreQuestions}
+                          disabled={isUpdateLoader}
+                          className={`py-2 px-4 rounded font-medium transition ${
+                            isUpdateLoader
+                              ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                              : 'bg-blue-500 text-white hover:bg-blue-600'
+                          }`}
                         >
                           {isUpdateLoader ? (
-                            <SpinnerLoader />
+                            <div className="flex items-center gap-2">
+                              <span className="animate-spin">⏳</span> Loading...
+                            </div>
                           ) : (
-                            <LuListCollapse className="text-lg" />
+                            'Load More Questions'
                           )}
-                        <span className="hidden md:inline"> Learn More</span>
                         </button>
                       </div>
                     )}
