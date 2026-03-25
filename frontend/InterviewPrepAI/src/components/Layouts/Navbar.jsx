@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import ProfileInfoCard from "../Cards/ProfileinfoCard";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
+import { useTutorial } from "../../context/tutorialContext";
 import Modal from "../Loader/Modal";
 import Login from "../../pages/Auth/Login";
 import ThemeToggle from "../ThemeToggle";
@@ -19,11 +20,25 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [portalNode, setPortalNode] = useState(null);
   const { user } = useContext(UserContext);
+  const { currentStep, isTutorialActive } = useTutorial();
   // Helper for initial letter or fallback
   const userInitial = user?.name?.charAt(0)?.toUpperCase() || user?.email?.charAt(0)?.toUpperCase() || 'U';
   const navigate = useNavigate();
   const location = useLocation();
   const [showLoginModal, setShowLoginModal] = useState(false);
+
+  /** Map tutorial step highlight IDs to the matching nav service title */
+  const TUTORIAL_HIGHLIGHT_MAP = {
+    "ai-helper": "AI Assistance",
+    practice: "Cognitive Builder",
+    "dsa-sheets": "DSA Master Sheets",
+  };
+
+  const getTutorialHighlightClass = (serviceTitle) => {
+    if (!isTutorialActive || !currentStep?.highlight) return "";
+    const targetTitle = TUTORIAL_HIGHLIGHT_MAP[currentStep.highlight];
+    return targetTitle === serviceTitle ? "tutorial-highlight-nav" : "";
+  };
 
   const handleServiceClick = (service) => {
     if (service.title === "Cognitive Builder" && !user) {
@@ -96,12 +111,13 @@ const Navbar = () => {
           <div className="hidden md:flex gap-8 text-gray-700 dark:text-gray-200 font-medium transition-colors duration-300">
             {SERVICES.map((service) => {
               const isActive = location.pathname === service.path;
+              const tutorialCls = getTutorialHighlightClass(service.title);
               if (service.title === "DSA Master Sheets") {
                 return (
                   <Link
                     to={service.path}
                     key={service.id}
-                    className={`relative cursor-pointer transition-all duration-200 hover:text-violet-600 dark:hover:text-violet-300 ${isActive ? "text-violet-600 dark:text-violet-400" : "text-gray-700 dark:text-gray-300"}`}
+                    className={`relative cursor-pointer transition-all duration-200 hover:text-violet-600 dark:hover:text-violet-300 rounded px-1 ${isActive ? "text-violet-600 dark:text-violet-400" : "text-gray-700 dark:text-gray-300"} ${tutorialCls}`}
                   >
                     {service.title}
                     <span
@@ -113,7 +129,7 @@ const Navbar = () => {
               return (
                 <span
                   key={service.id}
-                  className={`relative cursor-pointer transition-all duration-200 hover:text-violet-600 dark:hover:text-violet-300 ${isActive ? "text-violet-600 dark:text-violet-400" : "text-gray-700 dark:text-gray-300"}`}
+                  className={`relative cursor-pointer transition-all duration-200 hover:text-violet-600 dark:hover:text-violet-300 rounded px-1 ${isActive ? "text-violet-600 dark:text-violet-400" : "text-gray-700 dark:text-gray-300"} ${tutorialCls}`}
                   onClick={() => handleServiceClick(service)}
                 >
                   {service.title}
