@@ -7,6 +7,7 @@ export const API_PATHS = {
         REGISTER: "/api/auth/register", // Signup
         LOGIN: "/api/auth/login", // Authenticate user & return JWT token
         GET_PROFILE: "/api/auth/profile", // Get logged-in user details
+        VERIFY_EMAIL: (token) => `/api/auth/verify-email/${token}`, // Verify email with token
     },
     IMAGE: {
         UPLOAD_IMAGE: "/api/auth/upload-image", // Upload profile picture

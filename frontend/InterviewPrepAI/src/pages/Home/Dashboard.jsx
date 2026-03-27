@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { LuPlus } from "react-icons/lu";
+import { FaExclamationTriangle } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
@@ -14,9 +15,11 @@ import { useTutorial } from "../../context/tutorialContext";
 import axiosInstance from "../../utils/axiosinstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { CARD_BG } from "../../utils/data";
+import { UserContext } from "../../context/userContext";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
   const [sessions, setSessions] = useState([]);
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [openDeleteAlert, setOpenDeleteAlert] = useState({ open: false, data: null });
@@ -52,6 +55,21 @@ const Dashboard = () => {
     <DashboardLayout>
       <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-white md:px-10 relative overflow-hidden transition-colors duration-300">
         <div className="container mx-auto pt-8 pb-16 relative z-10">
+          {user && !user.isVerified && (
+            <div className="mb-6 bg-yellow-50 dark:bg-yellow-900/30 border-l-4 border-yellow-400 p-4 rounded-r-md shadow-sm">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <FaExclamationTriangle className="h-5 w-5 text-yellow-400" />
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm text-yellow-700 dark:text-yellow-200">
+                    Your email address is not verified. Please check your inbox for the verification link to unlock all features.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           <h1 className="md:text-2xl text-lg mb-5 font-semibold text-gray-900 dark:text-white md:mb-10 transition-colors duration-300">
             Your Interview Sessions
           </h1>

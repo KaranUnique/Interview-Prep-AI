@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { aiLimiter } = require('../middlewares/rateLimiter');
+const { protect, requireVerification } = require('../middlewares/authMiddleware');
 const { validateAiPrompt } = require('../middlewares/validateAiPrompt');
 const { sanitizeAiPrompt } = require('../middlewares/sanitizeAiPrompt');
 

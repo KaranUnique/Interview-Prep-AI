@@ -15,6 +15,7 @@ import PageTransition from "./components/animations/PageTransition";
 
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
+import VerifyEmail from "./pages/Auth/VerifyEmail";
 import LandingPage from "./LandingPage";
 import Dashboard from "./pages/Home/Dashboard";
 import InterviewPrep from "./pages/InterviewPrep/InterviewPrep";
