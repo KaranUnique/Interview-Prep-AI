@@ -107,7 +107,7 @@ const InterviewPrep = () => {
     } catch (error) {
       const errorMsg =
         error.response?.data?.message ||
-        "Somthing went wrong . Please try again Later.";
+        "Something went wrong. Please try again later.";
       setErrorMsg(errorMsg);
       toast.error(errorMsg);
       console.error("Error Loading more questions:" , error);
