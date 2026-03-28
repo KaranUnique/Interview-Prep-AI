@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
-import SpinnerLoader from "../../components/Loader/SpinnerLoader";
 import axiosInstance from "../../utils/axiosinstance";
 import { API_PATHS } from "../../utils/apiPaths";
 
@@ -29,6 +28,8 @@ const CreateSessionForm = () => {
 
   const handleCreateSession = async (e) => {
     e.preventDefault();
+
+    if (isLoading) return;
 
     const { role, experience, topicsToFocus } = formData;
 

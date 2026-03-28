@@ -6,6 +6,7 @@ import AptitudeQuestionCard from "../../../components/Cards/AptitudeQuestionCard
 import Loader from "../../../components/Loader/Loader";
 import DashboardLayout from "../../../components/Layouts/DashboardLayout";
 import LoadingModal from "../../../components/Loader/LoadingModal";
+import SpinnerLoader from "../../components/Loader/SpinnerLoader";
 
 const topics = [
   "Logical Reasoning",
@@ -24,6 +25,9 @@ const PracticePage = () => {
   const navigate = useNavigate();
 
   const handleTopicClick = async (topic) => {
+    // Add this guard
+    if (loading) return;
+    
     if (!user) {
       navigate("/login");
       return;
@@ -118,16 +122,23 @@ const PracticePage = () => {
                   onClick={async () => {
                     setLoading(true);
                     try {
-                      const res = await fetch(
-                        `${import.meta.env.VITE_BACKEND_URL}/api/questions?topic=${selectedTopic}`
-                      );
-                      const data = await res.json();
-                      setQuestions((prev) => [...prev, ...data]);
+                        const res = await fetch(
+                            `${import.meta.env.VITE_BACKEND_URL}/api/questions?topic=${selectedTopic}`
+                        );
+                        
+                        // Add this check like the initial fetch
+                        if (!res.ok) {
+                            throw new Error('Failed to fetch questions');
+                        }
+                        
+                        const data = await res.json();
+                        setQuestions((prev) => [...prev, ...data]);
                     } catch (error) {
-                      console.error("Error fetching questions:", error);
-                      alert("Failed to generate more questions.");
+                        console.error("Error fetching questions:", error);
+                        alert("Failed to generate more questions.");
+                    } finally {
+                        setLoading(false);
                     }
-                    setLoading(false);
                   }}
                 >
                   {loading ? "Loading..." : "Load More"}

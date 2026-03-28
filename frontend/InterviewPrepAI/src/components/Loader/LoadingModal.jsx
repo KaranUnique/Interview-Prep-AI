@@ -26,8 +26,16 @@ const LoadingModal = ({
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div 
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            role="presentation"
+            onClick={(e) => e.stopPropagation()}
+        >
             <motion.div
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="loading-modal-title"
+                aria-describedby="loading-modal-message"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
@@ -37,11 +45,17 @@ const LoadingModal = ({
                     <div className="flex justify-center mb-4">
                         <span className="text-4xl">{getIcon()}</span>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    <h3 
+                        id="loading-modal-title"
+                        className="text-lg font-semibold text-gray-900 dark:text-white mb-2"
+                    >
                         {message}
                     </h3>
                     {estimatedTime && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                        <p 
+                            id="loading-modal-message"
+                            className="text-sm text-gray-600 dark:text-gray-400 mb-4"
+                        >
                             ⏱️ {estimatedTime}
                         </p>
                     )}
