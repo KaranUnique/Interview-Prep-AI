@@ -73,7 +73,7 @@ const CreateSessionForm = () => {
         setError(error.response.data.message);
       }
       else{
-        setError("Somthing went wrong. please try again")
+        setError("Something went wrong. Please try again.")
       }
       console.error("Error creating session:" , error);
     }finally{

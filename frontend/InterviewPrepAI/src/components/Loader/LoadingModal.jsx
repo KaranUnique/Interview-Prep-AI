@@ -38,7 +38,6 @@ const LoadingModal = ({
                 aria-describedby="loading-modal-message"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
                 className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-2xl max-w-sm w-full mx-4"
             >
                 <div className="text-center">
