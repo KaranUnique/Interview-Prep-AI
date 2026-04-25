@@ -5,6 +5,8 @@ import TopicCard from "../../../components/Cards/TopicCard";
 import AptitudeQuestionCard from "../../../components/Cards/AptitudeQuestionCard";
 import Loader from "../../../components/Loader/Loader";
 import DashboardLayout from "../../../components/Layouts/DashboardLayout";
+import LoadingModal from "../../../components/Loader/LoadingModal";
+import SpinnerLoader from "../../components/Loader/SpinnerLoader";
 
 const topics = [
   "Logical Reasoning",
@@ -23,6 +25,9 @@ const PracticePage = () => {
   const navigate = useNavigate();
 
   const handleTopicClick = async (topic) => {
+    // Add this guard
+    if (loading) return;
+    
     if (!user) {
       navigate("/login");
       return;
@@ -31,6 +36,7 @@ const PracticePage = () => {
       navigate("/dashboard");
       return;
     }
+
     setSelectedTopic(topic);
     setLoading(true);
     setQuestions([]);
@@ -39,18 +45,29 @@ const PracticePage = () => {
       const res = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/api/questions?topic=${topic}`
       );
+
+      if(!res.ok) {
+        throw new Error('Failed to fetch questions');
+      }
+
       const data = await res.json();
       setQuestions(data);
     } catch (error) {
       console.error("Error fetching questions:", error);
       alert("Failed to generate questions.");
+    } finally{
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
     <DashboardLayout>
+      <LoadingModal 
+        isOpen={loading}
+        message="Generating aptitude questions..."
+        estimatedTime="This typically takes 5-10 seconds"
+        type="aptitude"
+      />
       <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-300">
         <main className="flex-1 container mx-auto px-4 py-10">
           <div className="rounded-xl shadow-sm bg-purple-50 dark:bg-transparent p-6 text-center mb-8 transition-colors duration-300">
@@ -105,16 +122,23 @@ const PracticePage = () => {
                   onClick={async () => {
                     setLoading(true);
                     try {
-                      const res = await fetch(
-                        `${import.meta.env.VITE_BACKEND_URL}/api/questions?topic=${selectedTopic}`
-                      );
-                      const data = await res.json();
-                      setQuestions((prev) => [...prev, ...data]);
+                        const res = await fetch(
+                            `${import.meta.env.VITE_BACKEND_URL}/api/questions?topic=${selectedTopic}`
+                        );
+                        
+                        // Add this check like the initial fetch
+                        if (!res.ok) {
+                            throw new Error('Failed to fetch questions');
+                        }
+                        
+                        const data = await res.json();
+                        setQuestions((prev) => [...prev, ...data]);
                     } catch (error) {
-                      console.error("Error fetching questions:", error);
-                      alert("Failed to generate more questions.");
+                        console.error("Error fetching questions:", error);
+                        alert("Failed to generate more questions.");
+                    } finally {
+                        setLoading(false);
                     }
-                    setLoading(false);
                   }}
                 >
                   {loading ? "Loading..." : "Load More"}
